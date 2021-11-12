@@ -17,6 +17,7 @@ namespace Benchmarks
     [SimpleJob(1, 2, 4, 1)]
     public class InputFormatterBenchmarks
     {
+        const string BaselineEndPoint = "/WeatherForecast/Baseline";
         const string EndPoint = "/WeatherForecast/Upload";
         const string DataEndPoint = "/WeatherForecast/Upload";
         const int IterationCount = 100;
@@ -37,7 +38,7 @@ namespace Benchmarks
                 yield return new WeatherForecast
                 {
                     Date = date.AddDays(i),
-                    Summary = "HUMID AF",
+                    Summary = "Hot and humid.",
                     TemperatureC = rand.Next(2, 34),
                 };
             }
@@ -76,6 +77,17 @@ namespace Benchmarks
         }
 
         [Benchmark]
+        public async Task Baseline()
+        {
+            for (int i = 0; i < IterationCount; i++)
+            {
+                var response = await jsonClient.GetAsync(BaselineEndPoint);
+                response.EnsureSuccessStatusCode();
+                var responseString = await response.Content.ReadAsStringAsync();
+            }
+        }
+
+        [Benchmark]
         public async Task Json()
         {
             GenerateData();
@@ -98,7 +110,7 @@ namespace Benchmarks
             {
                 var content = new ByteArrayContent(csvPayload);
                 content.Headers.Add("Content-Type", "text/csv");
-                content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
+                //content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
 
                 var response = await csvClient.PostAsync(DataEndPoint, content);
                 response.EnsureSuccessStatusCode();
@@ -114,7 +126,7 @@ namespace Benchmarks
             {
                 var content = new ByteArrayContent(csvPayload);
                 content.Headers.Add("Content-Type", "text/csv");
-                content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
+                //content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
 
                 var response = await csvClient.PostAsync(DataEndPoint + "data", content);
                 response.EnsureSuccessStatusCode();

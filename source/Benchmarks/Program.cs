@@ -11,6 +11,7 @@ namespace Benchmarks
         {
             //var b = new InputFormatterBenchmarks();
             //b.Csv().Wait();
+            //;
             //b.Json().Wait();
 
             //var skip = new HashSet<string>(StringComparer.OrdinalIgnoreCase)

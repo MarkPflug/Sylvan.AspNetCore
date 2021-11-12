@@ -27,29 +27,45 @@ namespace TestApp.Controllers
             _logger = logger;
         }
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get(int count = 4)
+        static List<WeatherForecast> Data;
+
+        static WeatherForecastController()
         {
             var rng = new Random(1);
             var today = DateTime.Today;
-            var data =
-                Enumerable.Range(1, count)
+            Data =
+                Enumerable.Range(1, 1000)
                 .Select(index => new WeatherForecast
                 {
                     Date = today.AddDays(index),
                     TemperatureC = rng.Next(-20, 55),
                     Summary = Summaries[rng.Next(Summaries.Length)]
                 })
-                .ToArray();
+                .ToList();
+        }
 
-            return data;
+        [HttpGet]
+        public IEnumerable<WeatherForecast> Get(int count = 4)
+        {
+            if (count > Data.Count)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            return Data.Take(count);
         }
 
         [HttpPost("upload")]
         public async Task<double> Upload(IAsyncEnumerable<WeatherForecast> data)
         {
-            var r = await data.AverageAsync(a => a.TemperatureC);
-            return r;
+            double a = 0d;
+            int c = 0;
+            await foreach (var item in data)
+            {
+                var x = item;
+                a += item.TemperatureC;
+                c++;
+            }
+            return a / c;
         }
 
         [HttpPost("uploaddata")]
@@ -64,6 +80,12 @@ namespace TestApp.Controllers
                 c++;
             }
             return a / c;
+        }
+
+        [HttpGet("baseline")]
+        public Task<double> Baseline()
+        {
+            return Task.FromResult(1d);
         }
 
         [HttpPost("input")]

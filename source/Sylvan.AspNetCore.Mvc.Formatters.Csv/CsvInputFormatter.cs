@@ -134,7 +134,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
                 if (genType == typeof(IAsyncEnumerable<>) || genType == typeof(IEnumerable<>))
                 {
                     var targetType = modelType.GetGenericArguments()[0];
-                    var binder = GetObjectBinder(targetType, schema, new DataBinderOptions { BindingMode = DataBindingMode.Any, InferColumnTypeFromProperty = true });
+                    var binder = GetObjectBinder(targetType, schema, new DataBinderOptions { BindingMode = DataBindingMode.Any, InferColumnTypeFromMember = true });
 
                     var fac = GetReaderFactory(modelType);
                     var seqReader = fac(binder, csv);
@@ -244,7 +244,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
             DbDataReader data;
             IDataBinder<T> binder;
 
-            public DataReader(DbDataReader data, IDataBinder binder)
+            public DataReader(DbDataReader data, object binder)
             {
                 this.data = data;
                 this.binder = (IDataBinder<T>)binder;

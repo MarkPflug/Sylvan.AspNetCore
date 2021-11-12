@@ -35,7 +35,7 @@ namespace Benchmarks
             this.RecordCount = 4;
         }
 
-        [Params(10, 100, 2000)]
+        [Params(10, 100, 1000)]
         public int RecordCount { get; set; }
 
         [Benchmark]

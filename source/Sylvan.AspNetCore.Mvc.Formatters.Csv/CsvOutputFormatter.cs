@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.ObjectPool;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
 using System;
@@ -10,7 +8,6 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net;
@@ -111,12 +108,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
 
             var opts = new CsvDataWriterOptions();
             this.options?.Invoke(opts);
-            char[] rentedBuffer = null;
-            if (opts.Buffer == null)
-            {
-                rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
-                opts.Buffer = rentedBuffer;
-            }
+            var rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
 
             var delimiter = opts.Delimiter;
 
@@ -126,7 +118,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
                 context.HttpContext.Response.Headers.Add("Csv-Delimiter", WebUtility.UrlEncode("" + opts.Delimiter));
             }
 
-            await using var csv = CsvDataWriter.Create(tw, opts);
+            await using var csv = CsvDataWriter.Create(tw, rentedBuffer, opts);
 
             var data = context.Object;
             DbDataReader reader = null;
@@ -150,6 +142,8 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
                 throw new Exception();
             }
 
+            // TODO: consider adding the ability to include schema info
+            // by applying an attribute to the API method.
             //var schema = reader.GetColumnSchema();
             //var spec = new Schema.Builder(schema).Build().ToString();
             //context.HttpContext.Response.Headers.Add("Csv-Schema", WebUtility.UrlEncode(spec));
@@ -181,7 +175,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters
             }
             if (elementType == null)
             {
-                // TODO: rather than throwing, can the failure be cached?
+                // TODO: might be nice to explain why it isn't supported.
                 throw new NotSupportedException();
             }
 
