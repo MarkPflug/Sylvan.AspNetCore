@@ -4,14 +4,13 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SQLite;
 using System.Linq;
 
 using System.Threading.Tasks;
 
 namespace TestApp.Controllers
 {
-    [ApiController]
+	[ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
@@ -88,26 +87,15 @@ namespace TestApp.Controllers
             return Task.FromResult(1d);
         }
 
-        [HttpPost("input")]
-        public async Task<DbDataReader> GetDb(DbDataReader data)
-        {
-            return data;
-            //while (await data.ReadAsync())
-            //{
-            //    var a = data.GetString(0);
-            //}
-            //return null;
-        }
-
-        [HttpGet("db")]
-        public async Task<DbDataReader> GetDb()
-        {
-            var c = new SQLiteConnection("Data Source=test.db");
-            c.Open();
-            var cmd = c.CreateCommand();
-            cmd.CommandText = "select * from Test";
-            var reader = cmd.ExecuteReader(CommandBehavior.CloseConnection);
-            return reader;
-        }
+        //[HttpGet("db")]
+        //public async Task<DbDataReader> GetDb()
+        //{
+        //    var c = new SQLiteConnection("Data Source=test.db");
+        //    c.Open();
+        //    var cmd = c.CreateCommand();
+        //    cmd.CommandText = "select * from Test";
+        //    var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+        //    return reader;
+        //}
     }
 }

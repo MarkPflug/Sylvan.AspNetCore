@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 
 namespace Benchmarks
 {
@@ -9,6 +10,8 @@ namespace Benchmarks
     {
         static void Main()
         {
+            var cp = Encoding.UTF8;
+            ;
             //var b = new InputFormatterBenchmarks();
             //b.Csv().Wait();
             //;

@@ -12,6 +12,16 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4533E0D6-DB74-4FAA-BCE8-8ED2B684F103}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\CsvFormatter.md = ..\docs\CsvFormatter.md
+		..\license.txt = ..\license.txt
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DFEE9D46-00C0-47D1-9AF5-8F24AE86B9F2}"
+	ProjectSection(SolutionItems) = preProject
+		..\.editorconfig = ..\.editorconfig
+		..\.gitignore = ..\.gitignore
+		..\Directory.Build.props = ..\Directory.Build.props
+		..\Directory.Build.targets = ..\Directory.Build.targets
 	EndProjectSection
 EndProject
 Global
