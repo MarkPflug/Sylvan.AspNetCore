@@ -5,4 +5,4 @@ This repository is a sibling to the [Sylvan](https://github.com/MarkPflug/Sylvan
 ## [Sylvan.AspNetCore.Mvc.Formatters.Csv](docs/CsvFormatter.md)
 
 A library that adds `text/csv` content negotiation for ASP.NET Core web APIs.
-Built using on the [Sylvan.Data.Csv](https://github.com/MarkPflug/Sylvan) library, it is faster than the standard JSON formatter.
+Built using the [Sylvan.Data.Csv](https://github.com/MarkPflug/Sylvan) library, it is faster than the standard JSON formatter.

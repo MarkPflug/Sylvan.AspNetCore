@@ -20,14 +20,24 @@ using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
+/// <summary>
+/// Input formatter for converting text/csv HTTP request body.
+/// </summary>
 public class CsvInputFormatter : TextInputFormatter
 {
 	readonly Action<CsvDataReaderOptions> options;
 
+	/// <summary>
+	/// Creates a new CsvInputFormatter.
+	/// </summary>
 	public CsvInputFormatter() : this(o => { })
 	{
 	}
 
+	/// <summary>
+	/// Creates a new CsvInputFormatter.
+	/// </summary>
+	/// <param name="options">Allows customizing the CsvDataReaderOptions.</param>
 	public CsvInputFormatter(Action<CsvDataReaderOptions> options)
 	{
 		this.options = options;
@@ -36,6 +46,7 @@ public class CsvInputFormatter : TextInputFormatter
 		SupportedMediaTypes.Add("text/csv");
 	}
 
+	/// <inheritdoc/>
 	public override async Task<InputFormatterResult> ReadRequestBodyAsync(
 		InputFormatterContext context,
 		Encoding encoding
