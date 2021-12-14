@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
 using System;
@@ -16,6 +19,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
+
+/// <summary>
+/// Output formatter for converting API results to text/csv HTTP response body.
+/// </summary>
 public class CsvOutputFormatter : TextOutputFormatter
 {
 	Action<CsvDataWriterOptions>? options;
@@ -25,8 +32,15 @@ public class CsvOutputFormatter : TextOutputFormatter
 
 	MethodInfo objectDataReaderCreateMethod;
 
+	/// <summary>
+	/// Creates a new CsvOutputFormatter.
+	/// </summary>
 	public CsvOutputFormatter() : this(null) { }
 
+	/// <summary>
+	/// Creates a new CsvOutputFormatter.
+	/// </summary>
+	/// <param name="options">Allows customizing the CsvDataWriterOptions.</param>
 	public CsvOutputFormatter(Action<CsvDataWriterOptions>? options)
 	{
 		this.options = options;
@@ -56,6 +70,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 			});
 	}
 
+	/// <inheritdoc/>
 	protected override bool CanWriteType(Type type)
 	{
 		if (type.IsPrimitive || type == typeof(string))
@@ -84,23 +99,27 @@ public class CsvOutputFormatter : TextOutputFormatter
 		return t.GetInterfaces().Any(IsComplexIEnumerableT);
 	}
 
+	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
 		return context.ContentType.Value == "text/csv";
 	}
 
+	/// <inheritdoc/>
 	public override Encoding SelectCharacterEncoding(OutputFormatterWriteContext context)
 	{
 		var enc = base.SelectCharacterEncoding(context);
 		return enc;
 	}
 
+	/// <inheritdoc/>
 	public override IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
 	{
 		var items = base.GetSupportedContentTypes(contentType, objectType);
 		return items;
 	}
 
+	/// <inheritdoc/>
 	public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
 	{
 		await using var tw = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding);
@@ -126,6 +145,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 
 		// TODO: consider adding the ability to include schema info
 		// by applying an attribute to the API method.
+		// It isn't obvious to me how to access controller/action info from here, however.
 		//var schema = reader.GetColumnSchema();
 		//var spec = new Schema.Builder(schema).Build().ToString();
 		//context.HttpContext.Response.Headers.Add("Csv-Schema", WebUtility.UrlEncode(spec));
