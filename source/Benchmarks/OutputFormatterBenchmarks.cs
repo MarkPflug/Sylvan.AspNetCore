@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 
 namespace Benchmarks
 {
-    [HtmlExporter]
     [MemoryDiagnoser]
-    [SimpleJob(1, 4, 8, 10)]
     public class OutputFormatterBenchmarks
     {
         const string EndPoint = "/WeatherForecast?count=";

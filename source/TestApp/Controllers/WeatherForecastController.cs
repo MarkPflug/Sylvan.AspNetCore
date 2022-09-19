@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 
 using System.Threading.Tasks;
@@ -11,91 +12,121 @@ using System.Threading.Tasks;
 namespace TestApp.Controllers
 {
 	[ApiController]
-    [Route("[controller]")]
-    public class WeatherForecastController : ControllerBase
-    {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+	[Route("[controller]")]
+	public class WeatherForecastController : Controller
+	{
+		private static readonly string[] Summaries = new[]
+		{
+			"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+		};
 
-        private readonly ILogger<WeatherForecastController> _logger;
+		private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
-        {
-            _logger = logger;
-        }
+		public WeatherForecastController(ILogger<WeatherForecastController> logger)
+		{
+			_logger = logger;
+		}
 
-        static List<WeatherForecast> Data;
+		static List<WeatherForecast> Data;
 
-        static WeatherForecastController()
-        {
-            var rng = new Random(1);
-            var today = DateTime.Today;
-            Data =
-                Enumerable.Range(1, 1000)
-                .Select(index => new WeatherForecast
-                {
-                    Date = today.AddDays(index),
-                    TemperatureC = rng.Next(-20, 55),
-                    Summary = Summaries[rng.Next(Summaries.Length)]
-                })
-                .ToList();
-        }
+		static WeatherForecastController()
+		{
+			var rng = new Random(1);
+			var today = DateTime.Today;
+			Data =
+				Enumerable.Range(1, 1000)
+				.Select(index => new WeatherForecast
+				{
+					Date = today.AddDays(index),
+					TemperatureC = rng.Next(-20, 55),
+					Summary = Summaries[rng.Next(Summaries.Length)]
+				})
+				.ToList();
+		}
 
-        [HttpGet]
-        public IEnumerable<WeatherForecast> Get(int count = 4)
-        {
-            if (count > Data.Count)
-            {
-                throw new ArgumentOutOfRangeException();
-            }
-            return Data.Take(count);
-        }
+		[HttpGet]
+		public IEnumerable<WeatherForecast> Get(int count = 4)
+		{
+			if (count > Data.Count)
+			{
+				throw new ArgumentOutOfRangeException();
+			}
+			return Data.Take(count);
+		}
 
-        [HttpPost("upload")]
-        public async Task<double> Upload(IAsyncEnumerable<WeatherForecast> data)
-        {
-            double a = 0d;
-            int c = 0;
-            await foreach (var item in data)
-            {
-                var x = item;
-                a += item.TemperatureC;
-                c++;
-            }
-            return a / c;
-        }
+		[HttpGet("View")]
+		public IActionResult ViewForecast()
+		{
+			var data = Get();
+			return View(data);
+		}
 
-        [HttpPost("uploaddata")]
-        public async Task<double> Upload(DbDataReader data)
-        {
-            var idx = data.GetOrdinal("TemperatureC");
-            double a = 0d;
-            int c = 0;
-            while (await data.ReadAsync())
-            {
-                a += data.GetDouble(idx);
-                c++;
-            }
-            return a / c;
-        }
+		async Task<SqlConnection> GetConnection()
+		{
+			var conn = new SqlConnection();
+			conn.ConnectionString = new SqlConnectionStringBuilder
+			{
+				DataSource = ".",
+				InitialCatalog = "weather_data",
+				IntegratedSecurity = true
+			}.ConnectionString;
+			await conn.OpenAsync();
+			return conn;
+		}
 
-        [HttpGet("baseline")]
-        public Task<double> Baseline()
-        {
-            return Task.FromResult(1d);
-        }
+		[HttpGet("getdata")]
+		public async Task<DbDataReader> GetData()
+		{
+			// conn will dispose with data reader
+			SqlConnection conn = await GetConnection();
+			using var cmd = conn.CreateCommand();
+			cmd.CommandText = "select Date, TempCelsius, Summary from forecast";
+			return await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+		}
 
-        //[HttpGet("db")]
-        //public async Task<DbDataReader> GetDb()
-        //{
-        //    var c = new SQLiteConnection("Data Source=test.db");
-        //    c.Open();
-        //    var cmd = c.CreateCommand();
-        //    cmd.CommandText = "select * from Test";
-        //    var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
-        //    return reader;
-        //}
-    }
+		[HttpPost("upload")]
+		public async Task<double> Upload(IAsyncEnumerable<WeatherForecast> data)
+		{
+			double a = 0d;
+			int c = 0;
+			await foreach (var item in data)
+			{
+				var x = item;
+				a += item.TemperatureC;
+				c++;
+			}
+			return a / c;
+		}
+
+		[HttpPost("uploaddata")]
+		public async Task<double> Upload(DbDataReader data)
+		{
+			var idx = data.GetOrdinal("TemperatureC");
+			double a = 0d;
+			int c = 0;
+			while (await data.ReadAsync())
+			{
+				a += data.GetDouble(idx);
+				c++;
+			}
+			return a / c;
+		}
+
+		[HttpGet("baseline")]
+		public Task<double> Baseline()
+		{
+			return Task.FromResult(1d);
+		}
+
+		//[HttpGet("db")]
+		//public async Task<DbDataReader> GetDb()
+		//{
+		//    var c = new SQLiteConnection("Data Source=test.db");
+		//    c.Open();
+		//    var cmd = c.CreateCommand();
+		//    cmd.CommandText = "select * from Test";
+		//    var reader = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+		//    return reader;
+		//}
+	}
 }

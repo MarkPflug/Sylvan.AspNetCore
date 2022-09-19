@@ -12,9 +12,7 @@ using TestApp;
 
 namespace Benchmarks
 {
-    [HtmlExporter]
     [MemoryDiagnoser]
-    [SimpleJob(1, 2, 4, 1)]
     public class InputFormatterBenchmarks
     {
         const string BaselineEndPoint = "/WeatherForecast/Baseline";
