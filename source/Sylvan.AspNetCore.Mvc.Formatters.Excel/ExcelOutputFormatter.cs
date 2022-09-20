@@ -1,28 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data;
-using Sylvan.Data.Csv;
-using System;
-using System.Buffers;
+using Sylvan.Data.Excel;
+using Sylvan.IO;
 using System.Collections;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Net;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
+
+
 
 /// <summary>
 /// Output formatter for converting API results to text/csv HTTP response body.
 /// </summary>
-public class CsvOutputFormatter : TextOutputFormatter
+public class ExcelOutputFormatter : OutputFormatter
 {
-	Action<CsvDataWriterOptions>? options;
+	Action<ExcelDataWriterOptions>? options;
 
 	ConcurrentDictionary<Type, Func<object, DbDataReader>> objectReaderFactories;
 
@@ -31,18 +27,16 @@ public class CsvOutputFormatter : TextOutputFormatter
 	/// <summary>
 	/// Creates a new CsvOutputFormatter.
 	/// </summary>
-	public CsvOutputFormatter() : this(null) { }
+	public ExcelOutputFormatter() : this(null) { }
 
 	/// <summary>
 	/// Creates a new CsvOutputFormatter.
 	/// </summary>
 	/// <param name="options">Allows customizing the CsvDataWriterOptions.</param>
-	public CsvOutputFormatter(Action<CsvDataWriterOptions>? options)
+	public ExcelOutputFormatter(Action<ExcelDataWriterOptions>? options)
 	{
 		this.options = options;
-		SupportedEncodings.Add(Encoding.UTF8);
-		SupportedEncodings.Add(Encoding.Unicode);
-		SupportedMediaTypes.Add("text/csv");
+		SupportedMediaTypes.Add(ExcelConstants.XlsxMimeType);
 
 		this.objectReaderFactories = new ConcurrentDictionary<Type, Func<object, DbDataReader>>();
 		this.objectDataReaderCreateMethod = GetObjectDataReaderCreateMethod();
@@ -97,15 +91,10 @@ public class CsvOutputFormatter : TextOutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return context.ContentType.Value == "text/csv";
+		return context.ContentType.Value == ExcelConstants.XlsxMimeType;
 	}
 
-	/// <inheritdoc/>
-	public override Encoding SelectCharacterEncoding(OutputFormatterWriteContext context)
-	{
-		var enc = base.SelectCharacterEncoding(context);
-		return enc;
-	}
+
 
 	/// <inheritdoc/>
 	public override IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
@@ -115,43 +104,28 @@ public class CsvOutputFormatter : TextOutputFormatter
 	}
 
 	/// <inheritdoc/>
-	public override async Task WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+	public async override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
 	{
-		await using var tw = context.WriterFactory(context.HttpContext.Response.Body, selectedEncoding);
-
-		var opts = new CsvDataWriterOptions();
-		// prefer the shorter line ending, can be overrridden by user.
-		opts.NewLine = "\n";
+		var opts = new ExcelDataWriterOptions();
 		this.options?.Invoke(opts);
 
-		var delimiter = opts.Delimiter;
+		context.ContentType = ExcelConstants.XlsxMimeType;
 
-		context.ContentType = "text/csv; charset=" + selectedEncoding.WebName;
-		if (delimiter != ',')
+		using var ms = new PooledMemoryStream();
+
+		using (var edw = ExcelDataWriter.Create(ms, ExcelWorkbookType.ExcelXml, opts))
 		{
-			context.HttpContext.Response.Headers.Add("Csv-Delimiter", WebUtility.UrlEncode("" + opts.Delimiter));
+			var data = context.Object;
+			var dr = GetReader(data);
+
+			edw.Write("Sheet1", dr);
+			await dr.DisposeAsync();
 		}
 
-		var rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
-		await using var csv = CsvDataWriter.Create(tw, rentedBuffer, opts);
-
-		var data = context.Object;
-		var reader = GetReader(data);
-
-		// TODO: consider adding the ability to include schema info
-		// by applying an attribute to the API method.
-		// It isn't obvious to me how to access controller/action info from here, however.
-		//var schema = reader.GetColumnSchema();
-		//var spec = new Schema.Builder(schema).Build().ToString();
-		//context.HttpContext.Response.Headers.Add("Csv-Schema", WebUtility.UrlEncode(spec));
-
-		await csv.WriteAsync(reader);
-
-		await reader.DisposeAsync();
-		if (rentedBuffer != null)
-		{
-			ArrayPool<char>.Shared.Return(rentedBuffer);
-		}
+		var s = context.HttpContext.Response.Body;
+		ms.Seek(0, SeekOrigin.Begin);
+		await ms.CopyToAsync(s);
+		await s.FlushAsync();
 	}
 
 	DbDataReader GetReader(object? data)

@@ -24,6 +24,7 @@ public class Startup
 			o =>
 			{
 				o.AddSylvanCsvFormatters();
+				o.AddSylvanExcelFormatters();//lol
 			}
 		);
 

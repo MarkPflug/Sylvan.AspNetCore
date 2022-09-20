@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
-		<VersionPrefix>0.1.0</VersionPrefix>
+		<VersionPrefix>0.2.0</VersionPrefix>
 		<Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<PackageTags>CSV;formatter;aspnet</PackageTags>
 		<LangVersion>10.0</LangVersion>
