@@ -36,7 +36,7 @@ public class ExcelOutputFormatter : OutputFormatter
 	public ExcelOutputFormatter(Action<ExcelDataWriterOptions>? options)
 	{
 		this.options = options;
-		SupportedMediaTypes.Add(ExcelConstants.XlsxMimeType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
 
 		this.objectReaderFactories = new ConcurrentDictionary<Type, Func<object, DbDataReader>>();
 		this.objectDataReaderCreateMethod = GetObjectDataReaderCreateMethod();
@@ -91,7 +91,7 @@ public class ExcelOutputFormatter : OutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return context.ContentType.Value == ExcelConstants.XlsxMimeType;
+		return context.ContentType.Value == ExcelConstants.XlsxContentType;
 	}
 
 
@@ -109,7 +109,7 @@ public class ExcelOutputFormatter : OutputFormatter
 		var opts = new ExcelDataWriterOptions();
 		this.options?.Invoke(opts);
 
-		context.ContentType = ExcelConstants.XlsxMimeType;
+		context.ContentType = ExcelConstants.XlsxContentType;
 
 		using var ms = new PooledMemoryStream();
 

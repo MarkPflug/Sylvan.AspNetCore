@@ -12,6 +12,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4533E0D6-DB74-4FAA-BCE8-8ED2B684F103}"
 	ProjectSection(SolutionItems) = preProject
 		..\docs\CsvFormatter.md = ..\docs\CsvFormatter.md
+		..\docs\ExcelFormatter.md = ..\docs\ExcelFormatter.md
 		..\license.txt = ..\license.txt
 		..\readme.md = ..\readme.md
 	EndProjectSection

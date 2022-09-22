@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
-using System;
 using System.Data.Common;
 
 namespace Sylvan.AspNetCore.TagHelpers;
@@ -54,23 +53,5 @@ public class DataTableTagHelper : TagHelper
 
 		output.Content.AppendHtml("</tr>");
 		output.Content.AppendHtml("</tfoot>");
-	}
-}
-
-[HtmlTargetElement("datetime")]
-public class DateTimeTagHelper : TagHelper
-{
-	const string DisplayFormat = "yyyy-MM-ddTHH:mm:ss";
-	const string Format = "yyyy-MM-ddTHH:mm:ssZ";
-
-	public DateTime DateTime { get; set; }
-
-	public override void Process(TagHelperContext context, TagHelperOutput output)
-	{
-		var dateStr = DateTime.ToString(Format);
-		output.TagMode = TagMode.StartTagAndEndTag;
-		output.TagName = "time";
-		output.Attributes.SetAttribute("datetime", dateStr);
-		output.Content.SetContent(DateTime.ToString(DisplayFormat));
 	}
 }

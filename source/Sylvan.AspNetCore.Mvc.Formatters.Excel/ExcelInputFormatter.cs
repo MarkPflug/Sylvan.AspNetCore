@@ -23,9 +23,9 @@ public class ExcelInputFormatter : InputFormatter
 	static ExcelInputFormatter()
 	{
 		MimeMap = new Dictionary<string, ExcelWorkbookType>(StringComparer.OrdinalIgnoreCase);
-		MimeMap.Add(ExcelConstants.XlsxMimeType, ExcelWorkbookType.ExcelXml);
-		MimeMap.Add(ExcelConstants.XlsbMimeType, ExcelWorkbookType.ExcelBinary);
-		MimeMap.Add(ExcelConstants.XlsMimeType, ExcelWorkbookType.Excel);
+		MimeMap.Add(ExcelConstants.XlsxContentType, ExcelWorkbookType.ExcelXml);
+		MimeMap.Add(ExcelConstants.XlsbContentType, ExcelWorkbookType.ExcelBinary);
+		MimeMap.Add(ExcelConstants.XlsContentType, ExcelWorkbookType.Excel);
 	}
 
 	readonly Action<ExcelDataReaderOptions> options;
@@ -44,9 +44,10 @@ public class ExcelInputFormatter : InputFormatter
 	public ExcelInputFormatter(Action<ExcelDataReaderOptions> options)
 	{
 		this.options = options;
-		SupportedMediaTypes.Add(ExcelConstants.XlsxMimeType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsbMimeType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsMimeType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
+		SupportedMediaTypes.Add("multipart/form-data");
 	}
 
 	static ExcelWorkbookType GetWorkbookType(string contentType)
