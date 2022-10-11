@@ -17,6 +17,6 @@ dotnet_diagnostic.CA1028.severity = none
 # xUnit2013: Do not use equality check to check for collection size.
 dotnet_diagnostic.xUnit2013.severity = suggestion
 
-[*.{xml,props,targets}]
+[*.{xml,props,targets,csproj}]
 intent_style = space
 indent_size = 2

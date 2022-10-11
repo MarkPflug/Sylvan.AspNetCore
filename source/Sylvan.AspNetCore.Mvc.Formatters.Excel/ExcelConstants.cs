@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Sylvan.Data;
-using Sylvan.Data.Excel;
-using System.Data.Common;
+﻿using Sylvan.Data.Excel;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 

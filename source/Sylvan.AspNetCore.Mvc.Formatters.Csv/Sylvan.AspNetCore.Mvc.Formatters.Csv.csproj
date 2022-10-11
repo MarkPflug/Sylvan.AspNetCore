@@ -14,7 +14,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
 		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.2" />
-		<PackageReference Include="Sylvan.Data" Version="0.2.5" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.7" />
 
 	</ItemGroup>
 </Project>

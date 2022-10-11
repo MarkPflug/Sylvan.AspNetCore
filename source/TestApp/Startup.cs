@@ -29,13 +29,13 @@ public class Startup
 				o.AddSylvanCsvFormatters();
 				o.AddSylvanExcelFormatters();
 
-				var binderProvider =
-					new CombinedModelBinderProvider(
-						new ExcelModelBinderProvider(),
-						new CsvModelBinderProvider()
-					);
+				//var binderProvider =
+				//	new CombinedModelBinderProvider(
+				//		new ExcelModelBinderProvider(),
+				//		new CsvModelBinderProvider()
+				//	);
 
-				o.ModelBinderProviders.Insert(0, binderProvider);
+				//o.ModelBinderProviders.Insert(0, binderProvider);
 			}
 		);
 
