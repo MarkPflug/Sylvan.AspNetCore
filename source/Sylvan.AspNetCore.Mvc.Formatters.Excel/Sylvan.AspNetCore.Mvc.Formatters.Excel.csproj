@@ -4,6 +4,8 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
+		<Description>ASP.NET formatter for Excel content negotiation.</Description>
+		<PackageTags>Excel;formatter;aspnet</PackageTags>
 		<VersionPrefix>0.1.0</VersionPrefix>
 		<VersionSuffix>b0002</VersionSuffix>
 	</PropertyGroup>
@@ -22,6 +24,5 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\..\..\Sylvan.Data.Excel\source\Sylvan.Data.Excel\Sylvan.Data.Excel.csproj" />
 	</ItemGroup>
-
-
+	
 </Project>

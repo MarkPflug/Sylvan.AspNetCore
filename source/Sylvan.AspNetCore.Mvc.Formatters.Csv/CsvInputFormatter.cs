@@ -3,13 +3,10 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
-using System;
 using System.Buffers;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
