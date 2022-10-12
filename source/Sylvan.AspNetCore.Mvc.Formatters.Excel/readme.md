@@ -5,7 +5,7 @@ It allows a client to choose to send and receive Excel data by specifying the ap
 
 ## InputFormatter
 
-The input formatter can handle APIs that accept `IDataReader`, `DbDataReader`, or a type that implements `IEnumerable<T>` where T is some complex object. It will accept content-type 
+The input formatter can handle APIs that accept `IDataReader`, `DbDataReader`, or a type that implements `IEnumerable<T>` where T is some complex object. The input formatter can accept the content-types listed in the following table.
 
 | File-Extension | Content-Type |
 |-|-|
