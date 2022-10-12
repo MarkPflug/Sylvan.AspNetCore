@@ -40,7 +40,6 @@
 		Include="$(ReadmeFile)"
 		Pack="true"
 		PackagePath="">
-		<Visible>false</Visible>
 	</None>
   </ItemGroup>
 
