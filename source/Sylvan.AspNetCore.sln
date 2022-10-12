@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.TagHelper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Formatters.Excel", "Sylvan.AspNetCore.Mvc.Formatters.Excel\Sylvan.AspNetCore.Mvc.Formatters.Excel.csproj", "{3DDBB146-639A-4265-998C-98AEC2B75F75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.Data.Excel", "..\..\Sylvan.Data.Excel\source\Sylvan.Data.Excel\Sylvan.Data.Excel.csproj", "{2D9151A8-B36B-46A7-A1D3-129112E63593}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,18 +99,6 @@ Global
 		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x64.Build.0 = Release|Any CPU
 		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x86.ActiveCfg = Release|Any CPU
 		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x86.Build.0 = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|x64.Build.0 = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Debug|x86.Build.0 = Debug|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|x64.ActiveCfg = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|x64.Build.0 = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|x86.ActiveCfg = Release|Any CPU
-		{2D9151A8-B36B-46A7-A1D3-129112E63593}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

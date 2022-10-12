@@ -59,7 +59,7 @@ public class ExcelOutputFormatter : OutputFormatter
 			var data = context.Object;
 			var dr = FormatterUtils.GetReader(data);
 
-			edw.Write(dr);
+			await edw.WriteAsync(dr);
 			await dr.DisposeAsync();
 		}
 
