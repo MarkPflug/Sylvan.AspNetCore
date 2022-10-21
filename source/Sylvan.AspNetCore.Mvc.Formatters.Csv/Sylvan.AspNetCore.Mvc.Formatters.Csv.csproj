@@ -6,7 +6,8 @@
 		<Nullable>enable</Nullable><Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<PackageTags>CSV;formatter;aspnet</PackageTags>
-		<VersionPrefix>0.2.0</VersionPrefix>
+		<VersionPrefix>0.2.1</VersionPrefix>
+		<VersionSuffix>b0001</VersionSuffix>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
