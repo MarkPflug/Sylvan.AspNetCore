@@ -7,7 +7,7 @@
 		<Description>ASP.NET formatter for Excel content negotiation.</Description>
 		<PackageTags>Excel;formatter;aspnet</PackageTags>
 		<VersionPrefix>0.1.0</VersionPrefix>
-		<VersionSuffix>b0003</VersionSuffix>
+		<VersionSuffix>b0004</VersionSuffix>
 	</PropertyGroup>
 
 	<ItemGroup>

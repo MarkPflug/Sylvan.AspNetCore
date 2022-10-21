@@ -45,12 +45,16 @@ public class CsvInputFormatter : TextInputFormatter
 	{
 		// request body must be buffered to avoid an issue where the response overlaps the
 		// incoming request and ends up blocking: https://github.com/dotnet/aspnetcore/issues/44525
+		// TODO: When the model is IEnumerable/IAsyncEnumerable, investigate buffering
+		// the materialized sequence instead, which is what the json formatter does.
 		var stream = new PooledMemoryStream();
 		await context.HttpContext.Request.Body.CopyToAsync(stream);
 		stream.Seek(0, SeekOrigin.Begin);
-		context.HttpContext.Response.RegisterForDispose(stream);
-
 		var reader = context.ReaderFactory(stream, encoding);
+
+		context.HttpContext.Response.RegisterForDispose(stream);
+		context.HttpContext.Response.RegisterForDispose(reader);
+
 		var opts = new CsvDataReaderOptions();
 
 		this.options?.Invoke(opts);

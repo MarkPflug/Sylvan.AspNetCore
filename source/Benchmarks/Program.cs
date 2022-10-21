@@ -10,9 +10,8 @@ class Program
 {
 	static void Main(string[] args)
 	{
-		var b = new OutputFormatterBenchmarks();
-		b.RecordCount = 100;
-		b.Excel().Wait();
+		new InputFormatterBenchmarks().Baseline().Wait();
+
 		BenchmarkSwitcher
 		 .FromAssembly(typeof(Program).Assembly)
 		 .Run(args, new MyConfig());

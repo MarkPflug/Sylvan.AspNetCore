@@ -1,16 +1,11 @@
 ﻿using Sylvan.Data;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Data;
-using System.Linq;
-using System.Reflection;
-using System.Linq.Expressions;
-using System.Threading;
-using System.Collections.Concurrent;
 using System.Collections;
-using System.Threading.Tasks;
+using System.Collections.Concurrent;
 using System.Collections.ObjectModel;
+using System.Data;
+using System.Data.Common;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
@@ -65,7 +60,7 @@ static class FormatterUtils
 		return binder;
 	}
 
-	
+
 
 	internal static Func<IDataBinder, DbDataReader, object> GetReaderFactory(Type modelType)
 	{
@@ -133,11 +128,21 @@ static class FormatterUtils
 		{
 			return rr.AsDbDataReader();
 		}
-		else if (data != null && IsComplexIEnumerableT(data.GetType()))
+		else if (data != null)
 		{
 			var type = data.GetType();
-			var factory = GetObjectReaderFactory(type);
-			return factory(data);
+			if (objectReaderFactories.TryGetValue(type, out var factory))
+			{
+				return factory(data);
+			}
+			else
+			{
+				if (IsComplexIEnumerableT(type))
+				{
+					factory = GetObjectReaderFactory(type);
+					return factory(data);
+				}
+			}
 		}
 		throw new NotSupportedException();
 	}

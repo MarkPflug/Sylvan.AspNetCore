@@ -57,7 +57,17 @@ public class WeatherForecastController : Controller
 		}
 		return Data.Take(count);
 	}
-	
+
+	[HttpGet("GetReader")]
+	public DbDataReader GetReader(int count = 4)
+	{
+		if (count > Data.Count)
+		{
+			throw new ArgumentOutOfRangeException();
+		}
+		return Data.Take(count).AsDataReader();
+	}
+
 	[HttpGet("test")]
 	public IActionResult Test()
 	{
@@ -185,9 +195,9 @@ public class WeatherForecastController : Controller
 	}
 
 	[HttpGet("baseline")]
-	public Task<double> Baseline()
+	public double Baseline()
 	{
-		return Task.FromResult(1d);
+		return 1d;
 	}
 
 	//[HttpGet("db")]

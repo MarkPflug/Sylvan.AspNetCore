@@ -59,7 +59,7 @@ services.AddControllers(
 ## Benchmarks
 
 These benchmarks compare the performance of the Sylvan CSV formatter to the standard JSON formatter.
-The CSV formatter exceeds the performance of JSON for every configuration.
+The CSV formatter matches or exceeds the performance of JSON for every configuration.
 
 ### Input formatter
 
@@ -74,32 +74,35 @@ performance difference increases as the payload size increases.
 `Csv` measures the Sylvan 'text/csv' formatter binding to objects.
 
 `CsvData` measures the Sylvan 'text/csv' formatter binding as a `DbDataReader`.
-This is faster than binding to objects as only the `TemperatureC` column needs to be accessed.
 
-|   Method | RecordCount |       Mean |     Error |    StdDev |     Gen 0 | Allocated |
-|--------- |------------ |-----------:|----------:|----------:|----------:|----------:|
-| Baseline |          10 |   9.168 ms | 3.1326 ms | 0.4848 ms |         - |      1 MB |
-|     Json |          10 |  14.278 ms | 2.4900 ms | 0.3853 ms |         - |      2 MB |
-|      Csv |          10 |  14.019 ms | 0.6350 ms | 0.0983 ms | 1000.0000 |      5 MB |
-|  CsvData |          10 |  13.415 ms | 3.5817 ms | 0.5543 ms | 1000.0000 |      5 MB |
-| Baseline |         100 |   8.188 ms | 0.5791 ms | 0.0317 ms |         - |      1 MB |
-|     Json |         100 |  25.411 ms | 0.8313 ms | 0.1286 ms |         - |      3 MB |
-|      Csv |         100 |  15.930 ms | 3.2947 ms | 0.5099 ms | 1000.0000 |      6 MB |
-|  CsvData |         100 |  14.209 ms | 1.1780 ms | 0.1823 ms | 1000.0000 |      5 MB |
-| Baseline |        1000 |   8.310 ms | 1.2671 ms | 0.1961 ms |         - |      1 MB |
-|     Json |        1000 | 145.833 ms | 5.2579 ms | 0.8137 ms | 3000.0000 |     13 MB |
-|      Csv |        1000 |  36.995 ms | 8.9444 ms | 1.3842 ms | 3000.0000 |     15 MB |
-|  CsvData |        1000 |  25.637 ms | 2.9596 ms | 0.4580 ms | 1000.0000 |      5 MB |
+
+|    Method | RecordCount |       Mean |     Error |    StdDev | Allocated |
+|---------- |------------ |-----------:|----------:|----------:|----------:|
+|  Baseline |          10 |   3.222 ms | 0.4202 ms | 0.1091 ms |   1.23 MB |
+|      Json |          10 |   8.309 ms | 0.8043 ms | 0.2868 ms |   1.67 MB |
+|       Csv |          10 |   7.174 ms | 0.1040 ms | 0.0270 ms |    5.5 MB |
+|   CsvData |          10 |   6.830 ms | 0.1003 ms | 0.0055 ms |   5.38 MB |
+|  Baseline |         100 |   3.183 ms | 0.0389 ms | 0.0060 ms |   1.23 MB |
+|      Json |         100 |  15.375 ms | 0.3709 ms | 0.0574 ms |   2.69 MB |
+|       Csv |         100 |  12.921 ms | 0.6605 ms | 0.2355 ms |   6.37 MB |
+|   CsvData |         100 |   9.467 ms | 0.0987 ms | 0.0153 ms |   5.43 MB |
+|  Baseline |        1000 |   3.204 ms | 0.0446 ms | 0.0069 ms |   1.23 MB |
+|      Json |        1000 |  91.450 ms | 1.7149 ms | 0.4454 ms |  12.59 MB |
+|       Csv |        1000 |  44.628 ms | 1.2516 ms | 0.4463 ms |   15.3 MB |
+|   CsvData |        1000 |  33.539 ms | 0.5211 ms | 0.0806 ms |   6.11 MB |
 
 ### Output formatter
 
 This benchmark measures the time taken to make 100 HTTP requests which return a payload of `RecordCount` WeatherForecast records.
 
-| Method | RecordCount |     Mean |    Error |   StdDev |     Gen 0 |     Gen 1 |     Gen 2 | Allocated |
-|------- |------------ |---------:|---------:|---------:|----------:|----------:|----------:|----------:|
-|   Json |          10 | 11.32 ms | 0.060 ms | 0.031 ms |  400.0000 |         - |         - |      2 MB |
-|    Csv |          10 | 10.80 ms | 0.066 ms | 0.035 ms |  400.0000 |         - |         - |      2 MB |
-|   Json |         100 | 17.65 ms | 0.039 ms | 0.017 ms | 1000.0000 |         - |         - |      4 MB |
-|    Csv |         100 | 13.48 ms | 0.047 ms | 0.024 ms |  600.0000 |         - |         - |      3 MB |
-|   Json |        1000 | 95.84 ms | 0.512 ms | 0.227 ms | 9000.0000 | 9000.0000 | 9000.0000 |     40 MB |
-|    Csv |        1000 | 40.72 ms | 0.096 ms | 0.050 ms | 3200.0000 |  200.0000 |         - |     13 MB |
+|  Method | RecordCount |       Mean |      Error |    StdDev | Allocated |
+|-------- |------------ |-----------:|-----------:|----------:|----------:|
+|    Json |          10 |   6.974 ms |  0.3353 ms | 0.0871 ms |   1.75 MB |
+|     Csv |          10 |   7.275 ms |  0.6244 ms | 0.2227 ms |   1.66 MB |
+| CsvData |          10 |   7.373 ms |  0.4829 ms | 0.1722 ms |   1.67 MB |
+|    Json |         100 |  11.097 ms |  0.1228 ms | 0.0067 ms |   4.15 MB |
+|     Csv |         100 |  10.075 ms |  0.1573 ms | 0.0408 ms |   2.68 MB |
+| CsvData |         100 |  10.592 ms |  1.0436 ms | 0.3722 ms |   2.68 MB |
+|    Json |        1000 |  58.032 ms |  6.5122 ms | 1.6912 ms |  40.52 MB |
+|     Csv |        1000 |  42.816 ms |  3.0557 ms | 1.0897 ms |   14.5 MB |
+| CsvData |        1000 |  41.228 ms |  0.6327 ms | 0.0979 ms |   14.5 MB |
