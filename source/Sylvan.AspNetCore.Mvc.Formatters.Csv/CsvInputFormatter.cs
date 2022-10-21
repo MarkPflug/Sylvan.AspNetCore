@@ -3,6 +3,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
+using Sylvan.IO;
 using System.Buffers;
 using System.Data;
 using System.Data.Common;
@@ -42,8 +43,14 @@ public class CsvInputFormatter : TextInputFormatter
 		Encoding encoding
 	)
 	{
-		var reader = context.ReaderFactory(context.HttpContext.Request.Body, encoding);
+		// request body must be buffered to avoid an issue where the response overlaps the
+		// incoming request and ends up blocking: https://github.com/dotnet/aspnetcore/issues/44525
+		var stream = new PooledMemoryStream();
+		await context.HttpContext.Request.Body.CopyToAsync(stream);
+		stream.Seek(0, SeekOrigin.Begin);
+		context.HttpContext.Response.RegisterForDispose(stream);
 
+		var reader = context.ReaderFactory(stream, encoding);
 		var opts = new CsvDataReaderOptions();
 
 		this.options?.Invoke(opts);
