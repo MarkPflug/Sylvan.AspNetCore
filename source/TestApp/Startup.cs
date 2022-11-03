@@ -25,10 +25,7 @@ public class Startup
 		services.AddControllers(
 			o =>
 			{
-				
-				o.AddSylvanCsvModelBinder();
 				o.AddSylvanCsvFormatters();
-				//o.AddSylvanExcelModelBinder();
 				o.AddSylvanExcelFormatters();
 			}
 		);
