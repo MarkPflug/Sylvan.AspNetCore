@@ -3,19 +3,22 @@
 	<PropertyGroup>
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable><Description>ASP.NET formatter for text/csv content negotiation.</Description>
-		<Description>ASP.NET formatter for text/csv content negotiation.</Description>
-		<PackageTags>CSV;formatter;aspnet</PackageTags>
-		<VersionPrefix>0.2.2</VersionPrefix>
+		<Nullable>enable</Nullable>
+		<Description>ASP.NET formatter for Excel content negotiation.</Description>
+		<PackageTags>Excel;formatter;aspnet</PackageTags>
+		<VersionPrefix>0.1.0</VersionPrefix>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Include="..\Sylvan.AspNetCore.Mvc.Formatters.Csv\FormatterUtils.cs" Link="FormatterUtils.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
 		<PackageReference Include="Sylvan.Common" Version="0.3.0" />
 		<PackageReference Include="Sylvan.Data" Version="0.2.7" />
-		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.4" />
-
+		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.0" />
 	</ItemGroup>
+	
 </Project>

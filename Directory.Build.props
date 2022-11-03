@@ -6,7 +6,7 @@
     <Authors>$(Owner)</Authors>
     <PackageIconUrl>https://markpflug.github.io/Sylvan.png</PackageIconUrl>
     <PackageIcon>Sylvan.png</PackageIcon>
-    <Copyright>© 2021 $(Owner)</Copyright>
+    <Copyright>© 2022 $(Owner)</Copyright>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <LangVersion>10.0</LangVersion>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -23,6 +23,10 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     
     <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Tests')) == 'true'">true</IsTestProject>
+	
+	<ReadmeFile>$(MSBuildProjectDirectory)/readme.md</ReadmeFile>
+	<PackageReadmeFile
+		Condition="Exists($(ReadmeFile))">readme.md</PackageReadmeFile>
   </PropertyGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)license.txt" Pack="true" PackagePath="">
@@ -31,6 +35,12 @@
     <None Include="$(MSBuildThisFileDirectory)Sylvan.png" Pack="true" PackagePath="">
       <Visible>false</Visible>
     </None>
+	<None
+		Condition="Exists($(ReadmeFile))"
+		Include="$(ReadmeFile)"
+		Pack="true"
+		PackagePath="">
+	</None>
   </ItemGroup>
 
 	<PropertyGroup Condition="$(IsTestProject) == true">

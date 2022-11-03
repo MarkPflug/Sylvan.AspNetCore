@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Sylvan.Data.Csv;
+using System.Text;
 
 namespace TestApp;
 
@@ -20,15 +21,21 @@ public class Startup
 
 	public void ConfigureServices(IServiceCollection services)
 	{
+		Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 		services.AddControllers(
 			o =>
 			{
+				
+				o.AddSylvanCsvModelBinder();
 				o.AddSylvanCsvFormatters();
+				//o.AddSylvanExcelModelBinder();
+				o.AddSylvanExcelFormatters();
 			}
 		);
 
 		services.AddOptions<CsvDataReaderOptions>().BindConfiguration("Csv");
 		services.AddMemoryCache();
+		services.AddRazorPages();
 		services.AddSwaggerGen(c =>
 		{
 			c.SwaggerDoc("v1", new OpenApiInfo { Title = "TestApp", Version = "v1" });
@@ -49,6 +56,7 @@ public class Startup
 		app.UseRouting();
 		app.UseAuthorization();
 
+		
 		app.UseEndpoints(endpoints =>
 		{
 			endpoints.MapControllers();

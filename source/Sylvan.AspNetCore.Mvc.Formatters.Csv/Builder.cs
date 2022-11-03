@@ -5,7 +5,7 @@ namespace Microsoft.AspNetCore.Mvc;
 /// <summary>
 /// Extension methods for configuring the Sylvan CSV MVC formatters.
 /// </summary>
-public static class SylvanExtensions
+public static class SylvanCsvExtensions
 {
 	/// <summary>
 	/// Registers both the CSV input and output formatters using the default options.
@@ -17,4 +17,13 @@ public static class SylvanExtensions
 
 		return opts;
 	}
+
+	///// <summary>
+	///// Registers the CSV model binder.
+	///// </summary>
+	//public static MvcOptions AddSylvanCsvModelBinder(this MvcOptions opts)
+	//{
+	//	opts.ModelBinderProviders.Insert(0, new CsvModelBinderProvider());
+	//	return opts;
+	//}
 }

@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.1" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="5.0.6" />
+    <Compile Include="..\Sylvan.AspNetCore.Mvc.Formatters.Excel\NoCloseStream.cs" Link="NoCloseStream.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sylvan.AspNetCore.Mvc.Formatters.Csv\Sylvan.AspNetCore.Mvc.Formatters.Csv.csproj" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.10" />
     <ProjectReference Include="..\TestApp\TestApp.csproj" />
   </ItemGroup>
 
