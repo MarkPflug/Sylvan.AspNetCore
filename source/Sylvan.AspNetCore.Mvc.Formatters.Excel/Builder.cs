@@ -17,4 +17,13 @@ public static class SylvanExcelExtensions
 
 		return opts;
 	}
+
+	///// <summary>
+	///// Registers the Sylvan Excel model binder.
+	///// </summary>
+	//public static MvcOptions AddSylvanExcelModelBinder(this MvcOptions opts)
+	//{
+	//	opts.ModelBinderProviders.Insert(0, new ExcelModelBinderProvider());
+	//	return opts;
+	//}
 }

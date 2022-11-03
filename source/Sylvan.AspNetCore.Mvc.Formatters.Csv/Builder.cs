@@ -17,4 +17,13 @@ public static class SylvanCsvExtensions
 
 		return opts;
 	}
+
+	///// <summary>
+	///// Registers the CSV model binder.
+	///// </summary>
+	//public static MvcOptions AddSylvanCsvModelBinder(this MvcOptions opts)
+	//{
+	//	opts.ModelBinderProviders.Insert(0, new CsvModelBinderProvider());
+	//	return opts;
+	//}
 }

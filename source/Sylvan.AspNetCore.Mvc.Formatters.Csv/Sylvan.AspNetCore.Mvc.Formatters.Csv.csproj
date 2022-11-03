@@ -6,7 +6,7 @@
 		<Nullable>enable</Nullable><Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<PackageTags>CSV;formatter;aspnet</PackageTags>
-		<VersionPrefix>0.2.1</VersionPrefix>
+		<VersionPrefix>0.2.2</VersionPrefix>
 		<GenerateDocumentationFile>true</GenerateDocumentationFile>
 	</PropertyGroup>
 
@@ -15,7 +15,7 @@
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
 		<PackageReference Include="Sylvan.Common" Version="0.3.0" />
 		<PackageReference Include="Sylvan.Data" Version="0.2.7" />
-		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.2" />
+		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.4" />
 
 	</ItemGroup>
 </Project>

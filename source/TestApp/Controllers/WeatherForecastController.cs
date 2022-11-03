@@ -81,7 +81,7 @@ public class WeatherForecastController : Controller
 	}
 
 	[HttpPost("model2")]
-	public object Test([FromForm] IEnumerable<WeatherForecast> data, string name)
+	public object Test([FromForm]IEnumerable<WeatherForecast> data, string name)
 	{
 		if (data == null)
 			return BadRequest();

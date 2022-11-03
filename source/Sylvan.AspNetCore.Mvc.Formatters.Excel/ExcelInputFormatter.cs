@@ -42,7 +42,6 @@ public class ExcelInputFormatter : InputFormatter
 		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
 		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
 		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
-		SupportedMediaTypes.Add("multipart/form-data");
 	}
 
 	static ExcelWorkbookType GetWorkbookType(string contentType)
