@@ -1,13 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Csv;
-using System;
 using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
@@ -36,9 +31,9 @@ public class CsvOutputFormatter : TextOutputFormatter
 	}
 
 	/// <inheritdoc/>
-	protected override bool CanWriteType(Type type)
+	protected override bool CanWriteType(Type? type)
 	{
-		return FormatterUtils.CanWriteType(type);
+		return type != null && FormatterUtils.CanWriteType(type);
 	}
 
 	/// <inheritdoc/>
@@ -55,7 +50,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 	}
 
 	/// <inheritdoc/>
-	public override IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
+	public override IReadOnlyList<string>? GetSupportedContentTypes(string contentType, Type objectType)
 	{
 		var items = base.GetSupportedContentTypes(contentType, objectType);
 		return items;

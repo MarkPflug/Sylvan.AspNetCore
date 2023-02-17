@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>netstandard2.1</TargetFramework>
+		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable><Description>ASP.NET formatter for text/csv content negotiation.</Description>
+		<Nullable>enable</Nullable>
 		<Description>ASP.NET formatter for text/csv content negotiation.</Description>
 		<PackageTags>CSV;formatter;aspnet</PackageTags>
 		<VersionPrefix>0.2.2</VersionPrefix>
@@ -11,11 +11,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<!--<PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />-->
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="5.0.0" />
-		<PackageReference Include="Sylvan.Common" Version="0.3.0" />
-		<PackageReference Include="Sylvan.Data" Version="0.2.7" />
-		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.4" />
+		<PackageReference Include="Sylvan.Common" Version="0.4.1" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.10" />
+		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.7" />
 
+		<!-- This took a while to figure out -->
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 	</ItemGroup>
+
 </Project>

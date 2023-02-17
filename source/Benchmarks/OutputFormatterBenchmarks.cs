@@ -54,7 +54,7 @@ public class OutputFormatterBenchmarks
 	[Params(10, 100, 1000)]
 	public int RecordCount { get; set; }
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task Json()
 	{
 		for (int i = 0; i < IterationCount; i++)
@@ -66,7 +66,7 @@ public class OutputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task Csv()
 	{
 		for (int i = 0; i < IterationCount; i++)
@@ -78,7 +78,7 @@ public class OutputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task CsvData()
 	{
 		for (int i = 0; i < IterationCount; i++)

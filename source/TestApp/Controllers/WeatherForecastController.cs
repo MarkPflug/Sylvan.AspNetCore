@@ -15,6 +15,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : Controller

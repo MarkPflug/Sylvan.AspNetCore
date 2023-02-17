@@ -103,7 +103,7 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task Baseline()
 	{
 		for (int i = 0; i < IterationCount; i++)
@@ -114,7 +114,7 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task Json()
 	{
 		GenerateData();
@@ -164,7 +164,7 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task Csv()
 	{
 		GenerateData();
@@ -182,7 +182,7 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	//[Benchmark]
 	public async Task CsvData()
 	{
 		GenerateData();

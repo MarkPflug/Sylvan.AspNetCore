@@ -27,9 +27,9 @@ public class ExcelOutputFormatter : OutputFormatter
 	}
 
 	/// <inheritdoc/>
-	protected override bool CanWriteType(Type type)
+	protected override bool CanWriteType(Type? type)
 	{
-		return FormatterUtils.CanWriteType(type);
+		return type != null && FormatterUtils.CanWriteType(type);
 	}
 
 	/// <inheritdoc/>
@@ -39,7 +39,7 @@ public class ExcelOutputFormatter : OutputFormatter
 	}
 
 	/// <inheritdoc/>
-	public override IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
+	public override IReadOnlyList<string>? GetSupportedContentTypes(string contentType, Type objectType)
 	{
 		var items = base.GetSupportedContentTypes(contentType, objectType);
 		return items;
@@ -53,14 +53,11 @@ public class ExcelOutputFormatter : OutputFormatter
 		context.ContentType = ExcelConstants.XlsxContentType;
 
 		using var ms = new PooledMemoryStream();
-
 		using (var edw = ExcelDataWriter.Create(ms, ExcelWorkbookType.ExcelXml, opts))
 		{
 			var data = context.Object;
-			var dr = FormatterUtils.GetReader(data);
-
+			await using var dr = FormatterUtils.GetReader(data);
 			await edw.WriteAsync(dr);
-			await dr.DisposeAsync();
 		}
 
 		var s = context.HttpContext.Response.Body;

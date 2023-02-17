@@ -34,7 +34,7 @@ public class CsvInputFormatter : TextInputFormatter
 		this.options = options;
 		SupportedEncodings.Add(Encoding.UTF8);
 		SupportedEncodings.Add(Encoding.Unicode);
-		SupportedMediaTypes.Add("text/csv");
+		SupportedMediaTypes.Add(CsvConstants.CsvContentType);
 	}
 
 	/// <inheritdoc/>
