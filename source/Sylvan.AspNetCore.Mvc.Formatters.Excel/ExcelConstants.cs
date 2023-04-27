@@ -1,6 +1,6 @@
-﻿using Sylvan.Data.Excel;
+﻿using System;
 
-namespace Sylvan.AspNetCore.Mvc.Formatters;
+namespace Sylvan.Data.Excel;
 
 static class ExcelConstants
 {
@@ -15,6 +15,20 @@ static class ExcelConstants
 			compare.Equals(contentType, XlsxContentType) |
 			compare.Equals(contentType, XlsbContentType) |
 			compare.Equals(contentType, XlsContentType);
+	}
+
+	public static string GetExcelContentType(ExcelWorkbookType type)
+	{
+		switch (type)
+		{
+			case ExcelWorkbookType.Excel: 
+				return XlsContentType;
+			case ExcelWorkbookType.ExcelXml: 
+				return XlsxContentType;
+			case ExcelWorkbookType.ExcelBinary:
+				return XlsbContentType;
+		}
+		throw new NotSupportedException();
 	}
 
 	public static ExcelWorkbookType GetWorkbookType(string contentType)

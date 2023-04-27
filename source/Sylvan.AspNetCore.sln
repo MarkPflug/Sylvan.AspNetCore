@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Formatters.Csv", "Sylvan.AspNetCore.Mvc.Formatters.Csv\Sylvan.AspNetCore.Mvc.Formatters.Csv.csproj", "{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestApp", "TestApp\TestApp.csproj", "{EB721A4B-4C54-400A-B27C-FF3E34174F73}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppMvc", "TestApp\TestAppMvc.csproj", "{EB721A4B-4C54-400A-B27C-FF3E34174F73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{D9B29B33-A1ED-4134-BFBF-5EE718AAD004}"
 EndProject
@@ -29,7 +29,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.TagHelper
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Formatters.Excel", "Sylvan.AspNetCore.Mvc.Formatters.Excel\Sylvan.AspNetCore.Mvc.Formatters.Excel.csproj", "{3DDBB146-639A-4265-998C-98AEC2B75F75}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MinimalAPITestApp", "MinimalAPITestApp\MinimalAPITestApp.csproj", "{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppMinimal", "MinimalAPITestApp\TestAppMinimal.csproj", "{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Http.Csv", "Sylvan.AspNetCore.Http.Csv\Sylvan.AspNetCore.Http.Csv.csproj", "{33934206-2B26-4878-BD63-99AD09F4DC51}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Csv", "Sylvan.AspNetCore.Mvc.Csv\Sylvan.AspNetCore.Mvc.Csv.csproj", "{92E2B257-C45F-476D-9CB4-A836935C54FA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Http.Excel", "Sylvan.AspNetCore.Http.Excel\Sylvan.AspNetCore.Http.Excel.csproj", "{974790A6-EF75-44A2-B6FA-E78AC7768F20}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Excel", "Sylvan.AspNetCore.Mvc.Excel\Sylvan.AspNetCore.Mvc.Excel.csproj", "{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -113,6 +121,54 @@ Global
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Release|x64.Build.0 = Release|Any CPU
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Release|x86.ActiveCfg = Release|Any CPU
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Release|x86.Build.0 = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|x64.Build.0 = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Debug|x86.Build.0 = Debug|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|x64.ActiveCfg = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|x64.Build.0 = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|x86.ActiveCfg = Release|Any CPU
+		{33934206-2B26-4878-BD63-99AD09F4DC51}.Release|x86.Build.0 = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|x64.Build.0 = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Debug|x86.Build.0 = Debug|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|x64.ActiveCfg = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|x64.Build.0 = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|x86.ActiveCfg = Release|Any CPU
+		{92E2B257-C45F-476D-9CB4-A836935C54FA}.Release|x86.Build.0 = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|x64.Build.0 = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Debug|x86.Build.0 = Debug|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|x64.ActiveCfg = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|x64.Build.0 = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|x86.ActiveCfg = Release|Any CPU
+		{974790A6-EF75-44A2-B6FA-E78AC7768F20}.Release|x86.Build.0 = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|x64.Build.0 = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Debug|x86.Build.0 = Debug|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x64.ActiveCfg = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x64.Build.0 = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x86.ActiveCfg = Release|Any CPU
+		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

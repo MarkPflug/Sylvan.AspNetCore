@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+		<DefineConstants>MVC</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\Sylvan.AspNetCore.Http.Csv\CsvResult.cs" Link="CsvResult.cs" />
+  </ItemGroup>
+
+
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Sylvan.Common" Version="0.4.1" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.10" />
+		<PackageReference Include="Sylvan.Data.Csv" Version="1.2.7" />
+	</ItemGroup>
+</Project>

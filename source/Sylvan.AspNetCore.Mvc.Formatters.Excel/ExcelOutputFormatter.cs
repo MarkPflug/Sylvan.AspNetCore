@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Excel;
 using Sylvan.IO;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
@@ -35,7 +39,9 @@ public class ExcelOutputFormatter : OutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return context.ContentType.Value == ExcelConstants.XlsxContentType;
+		return
+			context.ContentType.Value == ExcelConstants.XlsxContentType ||
+			context.ContentType.Value == ExcelConstants.XlsbContentType;
 	}
 
 	/// <inheritdoc/>
@@ -47,13 +53,20 @@ public class ExcelOutputFormatter : OutputFormatter
 
 	/// <inheritdoc/>
 	public async override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
-	{
+	{		
 		var opts = new ExcelDataWriterOptions();
 		this.options?.Invoke(opts);
-		context.ContentType = ExcelConstants.XlsxContentType;
-
+		
+		var wbType =
+			context.ContentType.Value switch
+			{
+				ExcelConstants.XlsbContentType => ExcelWorkbookType.ExcelBinary,
+				ExcelConstants.XlsxContentType => ExcelWorkbookType.ExcelXml,
+				_ => ExcelWorkbookType.Unknown,
+			};
+			
 		using var ms = new PooledMemoryStream();
-		using (var edw = ExcelDataWriter.Create(ms, ExcelWorkbookType.ExcelXml, opts))
+		using (var edw = ExcelDataWriter.Create(ms, wbType, opts))
 		{
 			var data = context.Object;
 			await using var dr = FormatterUtils.GetReader(data);

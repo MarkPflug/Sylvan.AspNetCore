@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using TestApp;
 
@@ -79,8 +80,7 @@ public class InputFormatterBenchmarks
 		if (csvPayload == null)
 		{
 			var ms = new MemoryStream();
-			var s = new NoCloseStream(ms);
-			var tw = new StreamWriter(s);
+			var tw = new StreamWriter(ms, Encoding.UTF8, -1, true);
 			var cw = CsvDataWriter.Create(tw);
 			cw.Write(GenerateData(RecordCount).AsDataReader());
 			tw.Flush();

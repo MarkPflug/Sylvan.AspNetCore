@@ -7,13 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Sylvan.AspNetCore.Mvc.Formatters.Excel\NoCloseStream.cs" Link="NoCloseStream.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.4" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0" />
-    <ProjectReference Include="..\TestApp\TestApp.csproj" />
+    <ProjectReference Include="..\TestApp\TestAppMvc.csproj" />
   </ItemGroup>
 
 </Project>

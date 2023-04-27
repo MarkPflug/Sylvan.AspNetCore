@@ -1,40 +1,48 @@
+using Sylvan.Data.Excel;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-	app.UseExceptionHandler("/Error");
-	app.UseHsts();
-}
-
-app.UseHttpsRedirection();
 app.UseRouting();
 
 app.Map(
-	"/test", 
+	"/TestXlsx", 
 	 () => {
-		var data = new[]
-		{
-			new
-			{
-				Id=1,
-				Date = DateTime.UtcNow,
-				Name = "Alpha",
-				Value = 123.32m,
-			},
-			new
-			{
-				Id=2,
-				Date = DateTime.UtcNow.AddDays(3),
-				Name = "Beta",
-				Value = 1023.77m,
-			},
-		};
-		 
+
+		 var data = GetData();
 		return Results.Extensions.Excel(data);
 	}
 );
 
+app.Map(
+	"/TestXlsb",
+	 () => {
+
+		 var data = GetData();
+		 return Results.Extensions.Excel(data, ExcelWorkbookType.ExcelBinary);
+	 }
+);
+
+app.Map(
+	"/TestCsv",
+	 () => {
+
+		 var data = GetData();
+		 return Results.Extensions.Csv(data);
+	 }
+);
+
 app.Run();
+
+static IEnumerable<TestRecord> GetData()
+{
+	var today = DateTime.UtcNow.Date;
+	return new[]
+		{
+			new TestRecord(1, today, "Alpha", 123.32m),
+			new TestRecord(2, today.AddDays(3), "Beta", 1023.77m),
+		};
+}
+
+record TestRecord(int Id, DateTime Date, string Name, decimal Value);

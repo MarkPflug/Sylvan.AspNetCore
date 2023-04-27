@@ -2,9 +2,12 @@
 using Sylvan.Data;
 using Sylvan.Data.Excel;
 using Sylvan.IO;
-using System.Buffers;
+using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.IO;
+using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
@@ -102,101 +105,3 @@ public class ExcelInputFormatter : InputFormatter
 		return InputFormatterResult.Failure();
 	}
 }
-
-///// <summary>
-///// 
-///// </summary>
-//public sealed class DebugPool<T> : ArrayPool<T>
-//{
-//	/// <summary>
-//	/// 
-//	/// </summary>
-//	public static DebugPool<T> Instance = new DebugPool<T>();
-
-//	int rentCount = 0;
-//	int reuseCount = 0;
-
-//	int returnCount = 0;
-//	HashSet<object> seen = new HashSet<object>();
-
-//	/// <summary>
-//	/// 
-//	/// </summary>
-//	public void DumpStats()
-//	{
-//		Console.WriteLine($"Rent {rentCount}");
-//		Console.WriteLine($"Reuse {reuseCount}");
-//		Console.WriteLine($"return {returnCount}");
-//	}
-
-//	/// <inheritdoc/>
-//	public override T[] Rent(int minimumLength)
-//	{
-//		rentCount++;
-//		T[] arr = ArrayPool<T>.Shared.Rent(minimumLength);
-//		if (!seen.Add(arr))
-//			reuseCount++;
-//		return arr;
-//	}
-//	/// <inheritdoc/>
-//	public override void Return(T[] array, bool clearArray = false)
-//	{
-//		returnCount++;
-//		ArrayPool<T>.Shared.Return(array, clearArray);
-//	}
-//}
-
-//sealed class StreamWrapper : Stream
-//{
-//	readonly Stream inner;
-	
-//	public StreamWrapper(Stream inner)
-//	{
-//		this.inner = inner;
-//	}
-
-//	public override bool CanRead => this.inner.CanRead;
-
-//	public override bool CanSeek => this.inner.CanSeek;
-
-//	public override bool CanWrite => this.inner.CanWrite;
-
-//	public override long Length => this.inner.Length;
-
-//	public override long Position { get => this.inner.Position; set => this.inner.Position = value; }
-
-//	public override void Flush()
-//	{
-//		this.inner.Flush();
-//	}
-
-//	public override int Read(byte[] buffer, int offset, int count)
-//	{
-//		return this.inner.Read(buffer, offset, count);
-//	}
-
-//	public override long Seek(long offset, SeekOrigin origin)
-//	{
-//		return this.inner.Seek(offset, origin);
-//	}
-
-//	public override void SetLength(long value)
-//	{
-//		this.inner.SetLength(value);
-//	}
-
-//	public override void Write(byte[] buffer, int offset, int count)
-//	{
-//		this.inner.Write(buffer, offset, count);
-//	}
-
-//	protected override void Dispose(bool disposing)
-//	{
-//		base.Dispose(disposing);
-//	}
-
-//	public override void Close()
-//	{
-//		base.Close();
-//	}
-//}
