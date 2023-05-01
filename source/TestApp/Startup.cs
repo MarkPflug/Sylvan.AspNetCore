@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sylvan.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Csv;
 using System.Text;
 
@@ -25,6 +26,7 @@ public class Startup
 		services.AddControllers(
 			o =>
 			{
+				o.InputFormatters.Add(new CsvInputFormatter(o => { o.BufferSize = 0x10000; }));
 				o.AddSylvanCsvFormatters();
 				o.AddSylvanExcelFormatters();
 			}

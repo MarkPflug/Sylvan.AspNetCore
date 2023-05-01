@@ -1,4 +1,10 @@
+using Sylvan.Data;
 using Sylvan.Data.Excel;
+
+using (ExcelDataWriter w = ExcelDataWriter.Create("dump.xlsb"))
+{
+	w.Write(GetData().AsDataReader());
+}
 
 var builder = WebApplication.CreateBuilder(args);
 

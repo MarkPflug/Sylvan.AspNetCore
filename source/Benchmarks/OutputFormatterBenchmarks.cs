@@ -21,6 +21,7 @@ public class OutputFormatterBenchmarks
 	private readonly HttpClient csvDataClient;
 	private readonly HttpClient xlsxClient;
 	private readonly HttpClient xlsbClient;
+	private readonly HttpClient xlsClient;
 
 	public OutputFormatterBenchmarks()
 	{
@@ -53,11 +54,17 @@ public class OutputFormatterBenchmarks
 		xlsbAccept.Clear();
 		xlsbAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.ms-excel.sheet.binary.macroEnabled.12"));
 
+		xlsClient = server.CreateClient();
+		var xlsAccept = xlsClient.DefaultRequestHeaders.Accept;
+		xlsAccept.Clear();
+		xlsAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.ms-excel"));
+
 
 		this.RecordCount = 4;
 	}
 
-	[Params(10, 100, 1000)]
+	//[Params(10, 100, 1000)]
+	[Params(100)]
 	public int RecordCount { get; set; }
 
 	[Benchmark]
@@ -117,6 +124,16 @@ public class OutputFormatterBenchmarks
 			response.EnsureSuccessStatusCode();
 			var responseString = await response.Content.ReadAsStringAsync();
 			var l = responseString.Length;
+		}
+	}
+
+	[Benchmark]
+	public async Task ExcelXls()
+	{
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var response = await xlsClient.GetAsync(EndPoint + RecordCount);
+			response.EnsureSuccessStatusCode();
 		}
 	}
 }

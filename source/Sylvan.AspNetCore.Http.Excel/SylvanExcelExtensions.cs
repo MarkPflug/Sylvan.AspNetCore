@@ -21,7 +21,7 @@ public static class SylvanExcelExtensions
 	)
 		where T : class
 	{
-		return new ExcelResult<T>(seq, type,filename);
+		return new ExcelResult<T>(seq, type, filename);
 	}
 
 	/// <summary>

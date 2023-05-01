@@ -119,12 +119,15 @@ public class CsvInputFormatter : TextInputFormatter
 			opts.Schema = schema;
 		}
 
+		//opts.StringFactory = new StringPool().GetString;
+
 		var rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
 		context.HttpContext.Response.RegisterForDispose(new GenericDisposable(() => ArrayPool<char>.Shared.Return(rentedBuffer)));
-		var csv = await CsvDataReader.CreateAsync(reader, opts);
+		var csv = await CsvDataReader.CreateAsync(reader, rentedBuffer, opts);
 
 		var modelType = context.ModelType;
 
+		// TODO: modeltype is assignable to?
 		if (modelType == typeof(DbDataReader) || modelType == typeof(IDataReader) || modelType == typeof(CsvDataReader))
 		{
 			return InputFormatterResult.Success(csv);
@@ -139,7 +142,16 @@ public class CsvInputFormatter : TextInputFormatter
 			if (genType == typeof(IAsyncEnumerable<>) || genType == typeof(IEnumerable<>))
 			{
 				var targetType = modelType.GetGenericArguments()[0];
-				var binder = FormatterUtils.GetObjectBinder(targetType, schema, new DataBinderOptions { BindingMode = DataBindingMode.Any, InferColumnTypeFromMember = true });
+				var binder =
+					FormatterUtils.GetObjectBinder(
+						targetType,
+						schema,
+						new DataBinderOptions
+						{
+							BindingMode = DataBindingMode.AllProperties,
+							InferColumnTypeFromMember = true
+						}
+					);
 
 				var fac = FormatterUtils.GetReaderFactory(modelType);
 				var seqReader = fac(binder, csv);

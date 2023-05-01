@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Formatters;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Excel;
 using Sylvan.IO;
 using System;
@@ -28,6 +30,8 @@ public class ExcelOutputFormatter : OutputFormatter
 	{
 		this.options = options;
 		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
+		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
 	}
 
 	/// <inheritdoc/>
@@ -41,7 +45,8 @@ public class ExcelOutputFormatter : OutputFormatter
 	{
 		return
 			context.ContentType.Value == ExcelConstants.XlsxContentType ||
-			context.ContentType.Value == ExcelConstants.XlsbContentType;
+			context.ContentType.Value == ExcelConstants.XlsbContentType ||
+			context.ContentType.Value == ExcelConstants.XlsContentType;
 	}
 
 	/// <inheritdoc/>
@@ -53,10 +58,10 @@ public class ExcelOutputFormatter : OutputFormatter
 
 	/// <inheritdoc/>
 	public async override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
-	{		
+	{
 		var opts = new ExcelDataWriterOptions();
 		this.options?.Invoke(opts);
-		
+
 		var wbType =
 			context.ContentType.Value switch
 			{
@@ -64,7 +69,15 @@ public class ExcelOutputFormatter : OutputFormatter
 				ExcelConstants.XlsxContentType => ExcelWorkbookType.ExcelXml,
 				_ => ExcelWorkbookType.Unknown,
 			};
-			
+
+		if (wbType == ExcelWorkbookType.Unknown)
+		{
+			var response = context.HttpContext.Response;
+			response.StatusCode = StatusCodes.Status415UnsupportedMediaType;
+			await response.CompleteAsync();
+			return;
+		}
+
 		using var ms = new PooledMemoryStream();
 		using (var edw = ExcelDataWriter.Create(ms, wbType, opts))
 		{

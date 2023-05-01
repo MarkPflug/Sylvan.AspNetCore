@@ -11,9 +11,6 @@ class Program
 {
 	static void Main(string[] args)
 	{
-		//new InputFormatterBenchmarks().Excel().Wait();
-		//new OutputFormatterBenchmarks().ExcelXlsb().Wait();
-
 		BenchmarkSwitcher
 		 .FromAssembly(typeof(Program).Assembly)
 		 .Run(args, new MyConfig());

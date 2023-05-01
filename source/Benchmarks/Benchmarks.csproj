@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.4" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.0" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.5" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.5" />
     <ProjectReference Include="..\TestApp\TestAppMvc.csproj" />
   </ItemGroup>
 

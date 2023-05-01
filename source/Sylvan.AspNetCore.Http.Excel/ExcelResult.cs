@@ -40,11 +40,13 @@ class ExcelResult :
 		}
 		using var stream = new PooledMemoryStream();
 		{
-			using var dw = ExcelDataWriter.Create(stream, ExcelWorkbookType.ExcelXml);
-			await dw.WriteAsync(data);
+			using (var dw = ExcelDataWriter.Create(stream, this.type))
+			{
+				await dw.WriteAsync(data);
+			}
+			stream.Seek(0, SeekOrigin.Begin);
+			await stream.CopyToAsync(response.Body);
 		}
-		stream.Seek(0, SeekOrigin.Begin);
-		await stream.CopyToAsync(response.Body);
 	}
 
 #if MVC

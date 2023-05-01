@@ -20,10 +20,12 @@ public class ExcelInputFormatter : InputFormatter
 
 	static ExcelInputFormatter()
 	{
-		MimeMap = new Dictionary<string, ExcelWorkbookType>(StringComparer.OrdinalIgnoreCase);
-		MimeMap.Add(ExcelConstants.XlsxContentType, ExcelWorkbookType.ExcelXml);
-		MimeMap.Add(ExcelConstants.XlsbContentType, ExcelWorkbookType.ExcelBinary);
-		MimeMap.Add(ExcelConstants.XlsContentType, ExcelWorkbookType.Excel);
+		MimeMap = new Dictionary<string, ExcelWorkbookType>(StringComparer.OrdinalIgnoreCase)
+		{
+			{ ExcelConstants.XlsxContentType, ExcelWorkbookType.ExcelXml },
+			{ ExcelConstants.XlsbContentType, ExcelWorkbookType.ExcelBinary },
+			{ ExcelConstants.XlsContentType, ExcelWorkbookType.Excel }
+		};
 	}
 
 	readonly Action<ExcelDataReaderOptions> options;

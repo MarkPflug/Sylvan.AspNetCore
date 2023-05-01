@@ -1,4 +1,5 @@
 ﻿using Sylvan.AspNetCore.Mvc.Formatters;
+using Sylvan.Data.Csv;
 
 namespace Microsoft.AspNetCore.Mvc;
 
@@ -17,13 +18,4 @@ public static class SylvanCsvExtensions
 
 		return opts;
 	}
-
-	///// <summary>
-	///// Registers the CSV model binder.
-	///// </summary>
-	//public static MvcOptions AddSylvanCsvModelBinder(this MvcOptions opts)
-	//{
-	//	opts.ModelBinderProviders.Insert(0, new CsvModelBinderProvider());
-	//	return opts;
-	//}
 }
