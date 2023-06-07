@@ -83,7 +83,7 @@ public class ExcelInputFormatter : InputFormatter
 
 		var modelType = context.ModelType;
 
-		if (modelType == typeof(DbDataReader) || modelType == typeof(IDataReader) || modelType == typeof(ExcelDataReader))
+		if (modelType.IsAssignableFrom(typeof(ExcelDataReader)))
 		{
 			return InputFormatterResult.Success(edr);
 		}

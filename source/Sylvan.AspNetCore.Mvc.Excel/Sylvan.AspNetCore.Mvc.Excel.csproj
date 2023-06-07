@@ -14,9 +14,9 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Sylvan.Common" Version="0.4.1" />
-		<PackageReference Include="Sylvan.Data" Version="0.2.10" />		
-		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.11" />
+		<PackageReference Include="Sylvan.Common" Version="0.4.2" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.12" />		
+		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.12" />
 	</ItemGroup>
 
 </Project>

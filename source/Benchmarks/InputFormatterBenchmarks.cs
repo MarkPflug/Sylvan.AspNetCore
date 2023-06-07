@@ -52,7 +52,7 @@ public class InputFormatterBenchmarks
 		server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
 
 		client = server.CreateClient();
-		
+
 		this.RecordCount = 10;
 
 		GenerateData();
@@ -73,12 +73,8 @@ public class InputFormatterBenchmarks
 			this.averageStr = average.ToString();
 		}
 
-		if (jsonPayload == null)
-		{
-			jsonPayload = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(GenerateData(RecordCount));
-		}
+		jsonPayload = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(GenerateData(RecordCount));
 
-		if (csvPayload == null)
 		{
 			var ms = new MemoryStream();
 			var tw = new StreamWriter(ms, Encoding.UTF8, -1, true);
@@ -88,9 +84,9 @@ public class InputFormatterBenchmarks
 			this.csvPayload = new byte[ms.Length];
 			ms.Seek(0, SeekOrigin.Begin);
 			ms.Read(csvPayload, 0, csvPayload.Length);
+
 		}
 
-		if (excelPayload == null)
 		{
 			var ms = new MemoryStream();
 			var s = new NoCloseStream(ms);
@@ -103,7 +99,6 @@ public class InputFormatterBenchmarks
 			ms.Read(excelPayload, 0, excelPayload.Length);
 		}
 
-		if (xlsbPayload == null)
 		{
 			var ms = new MemoryStream();
 			var s = new NoCloseStream(ms);
@@ -124,7 +119,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.GetAsync(BaselineEndPoint);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
 		}
 	}
 
@@ -137,7 +131,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
 		}
 	}
 
@@ -151,9 +144,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
-			//if (responseString != this.averageStr)
-			//	throw new Exception();
 		}
 	}
 
@@ -167,9 +157,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
-			//if (responseString != this.averageStr)
-			//	throw new Exception();
 		}
 	}
 
@@ -184,9 +171,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
-			//if (responseString != this.averageStr)
-			//	throw new Exception();
 		}
 	}
 
@@ -200,9 +184,6 @@ public class InputFormatterBenchmarks
 
 			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
-			//if (responseString != this.averageStr)
-			//	throw new Exception();
 		}
 	}
 
@@ -216,9 +197,6 @@ public class InputFormatterBenchmarks
 		{
 			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			//var responseString = await response.Content.ReadAsStringAsync();
-			//if (responseString != this.averageStr)
-			//	throw new Exception();
 		}
 	}
 
@@ -233,7 +211,6 @@ public class InputFormatterBenchmarks
 
 			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
 		}
 	}
 }
