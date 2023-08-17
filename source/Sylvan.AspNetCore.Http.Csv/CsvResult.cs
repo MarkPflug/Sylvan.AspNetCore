@@ -18,8 +18,6 @@ public class CsvResult :
 #endif
 
 {
-	const string CsvContentType = "text/csv";
-
 	readonly DbDataReader data;
 	readonly string? filename;
 
@@ -32,7 +30,7 @@ public class CsvResult :
 	public async Task ExecuteAsync(HttpContext httpContext)
 	{
 		var response = httpContext.Response;
-		response.ContentType = CsvContentType;
+		response.ContentType = CsvConstants.CsvContentType;
 		response.StatusCode = StatusCodes.Status200OK;
 
 		if (filename != null)

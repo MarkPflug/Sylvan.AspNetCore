@@ -39,7 +39,7 @@ public class WeatherForecastController : Controller
 		var rng = new Random(1);
 		var today = DateTime.Today;
 		Data =
-			Enumerable.Range(1, 1000)
+			Enumerable.Range(1, 10000)
 			.Select(index => new WeatherForecast
 			{
 				Date = today.AddDays(index),
@@ -199,6 +199,19 @@ public class WeatherForecastController : Controller
 	public double Baseline()
 	{
 		return 1d;
+	}
+
+	[HttpGet("dbtest")]
+	[Produces("text/csv")]
+	public async Task<DbDataReader> DbTest()
+	{
+		// not "using", connection will be disposed when the reader is closed.
+		var conn = new SqlConnection("Integrated Security=true;Data Source=.;Initial Catalog=sc_dev");
+		await conn.OpenAsync();
+		var cmd = conn.CreateCommand();
+		cmd.CommandText = "select * from SC.Issue";
+		var r = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+		return r;
 	}
 
 	//[HttpGet("db")]

@@ -1,4 +1,5 @@
 ﻿using Sylvan.AspNetCore.Mvc;
+using Sylvan.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Excel;
 using System.Data.Common;
 
@@ -10,6 +11,17 @@ namespace Microsoft.AspNetCore.Mvc;
 /// </summary>
 public static class SylvanExcelExtensions
 {
+	/// <summary>
+	/// Registers both the Excel input and output formatters using the default options.
+	/// </summary>
+	public static MvcOptions AddSylvanExcelFormatters(this MvcOptions opts)
+	{
+		opts.InputFormatters.Add(new ExcelInputFormatter());
+		opts.OutputFormatters.Add(new ExcelOutputFormatter());
+
+		return opts;
+	}
+
 	/// <summary>
 	/// Returns an Excel result.
 	/// </summary>

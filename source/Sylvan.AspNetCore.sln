@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Formatters.Csv", "Sylvan.AspNetCore.Mvc.Formatters.Csv\Sylvan.AspNetCore.Mvc.Formatters.Csv.csproj", "{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppMvc", "TestApp\TestAppMvc.csproj", "{EB721A4B-4C54-400A-B27C-FF3E34174F73}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{D9B29B33-A1ED-4134-BFBF-5EE718AAD004}"
@@ -27,8 +25,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DFEE9D46
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.TagHelpers", "Sylvan.AspNetCore.TagHelpers\Sylvan.AspNetCore.TagHelpers.csproj", "{56A46F4A-F548-4A18-9A79-ED96EB32BD8C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Formatters.Excel", "Sylvan.AspNetCore.Mvc.Formatters.Excel\Sylvan.AspNetCore.Mvc.Formatters.Excel.csproj", "{3DDBB146-639A-4265-998C-98AEC2B75F75}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppMinimal", "MinimalAPITestApp\TestAppMinimal.csproj", "{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Http.Csv", "Sylvan.AspNetCore.Http.Csv\Sylvan.AspNetCore.Http.Csv.csproj", "{33934206-2B26-4878-BD63-99AD09F4DC51}"
@@ -49,18 +45,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|x64.Build.0 = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Debug|x86.Build.0 = Debug|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|x64.ActiveCfg = Release|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|x64.Build.0 = Release|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|x86.ActiveCfg = Release|Any CPU
-		{1DD7EC9D-D38D-43C1-89FE-F113A9C80A08}.Release|x86.Build.0 = Release|Any CPU
 		{EB721A4B-4C54-400A-B27C-FF3E34174F73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EB721A4B-4C54-400A-B27C-FF3E34174F73}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EB721A4B-4C54-400A-B27C-FF3E34174F73}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -97,18 +81,6 @@ Global
 		{56A46F4A-F548-4A18-9A79-ED96EB32BD8C}.Release|x64.Build.0 = Release|Any CPU
 		{56A46F4A-F548-4A18-9A79-ED96EB32BD8C}.Release|x86.ActiveCfg = Release|Any CPU
 		{56A46F4A-F548-4A18-9A79-ED96EB32BD8C}.Release|x86.Build.0 = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|x64.Build.0 = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Debug|x86.Build.0 = Debug|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x64.ActiveCfg = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x64.Build.0 = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x86.ActiveCfg = Release|Any CPU
-		{3DDBB146-639A-4265-998C-98AEC2B75F75}.Release|x86.Build.0 = Release|Any CPU
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B8CE29B-9B05-4CA6-8586-8C63C8B2DB85}.Debug|x64.ActiveCfg = Debug|Any CPU

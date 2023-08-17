@@ -60,11 +60,11 @@ public class OutputFormatterBenchmarks
 		xlsAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.ms-excel"));
 
 
-		this.RecordCount = 4;
+		//this.RecordCount = 4;
 	}
 
 	//[Params(10, 100, 1000)]
-	[Params(100)]
+	[Params(5000)]
 	public int RecordCount { get; set; }
 
 	[Benchmark]

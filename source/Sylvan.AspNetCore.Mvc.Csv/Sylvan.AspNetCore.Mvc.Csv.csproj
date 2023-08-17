@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <Compile Include="..\Sylvan.AspNetCore.Http.Csv\CsvResult.cs" Link="CsvResult.cs" />
+		<Compile Include="..\Sylvan.AspNetCore.Http.Csv\CsvConstants.cs" Link="CsvConstants.cs" />
   </ItemGroup>
 
 
@@ -16,6 +17,14 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Sylvan.Common" Version="0.4.2" />
 		<PackageReference Include="Sylvan.Data" Version="0.2.12" />
-		<PackageReference Include="Sylvan.Data.Csv" Version="1.3.2" />
+		<PackageReference Include="Sylvan.Data.Csv" Version="1.3.3" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+	  <None Update="readme.md">
+	    <PackagePath></PackagePath>
+	    <Pack>true</Pack>
+	  </None>
 	</ItemGroup>
 </Project>

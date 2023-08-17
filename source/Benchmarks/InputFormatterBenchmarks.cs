@@ -160,9 +160,8 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-
 	[Benchmark]
-	public async Task Excel()
+	public async Task ExcelXlsx()
 	{
 		var content = new ByteArrayContent(excelPayload);
 		content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
@@ -175,7 +174,7 @@ public class InputFormatterBenchmarks
 	}
 
 	[Benchmark]
-	public async Task ExcelData()
+	public async Task ExcelXlsxData()
 	{
 		for (int i = 0; i < IterationCount; i++)
 		{

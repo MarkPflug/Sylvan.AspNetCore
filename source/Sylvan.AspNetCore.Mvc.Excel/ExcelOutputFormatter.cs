@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Excel;
 using Sylvan.IO;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
@@ -79,6 +74,7 @@ public class ExcelOutputFormatter : OutputFormatter
 		}
 
 		using var ms = new PooledMemoryStream();
+		//using var ms = new MemoryStream();
 		using (var edw = ExcelDataWriter.Create(ms, wbType, opts))
 		{
 			var data = context.Object;

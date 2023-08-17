@@ -1,4 +1,5 @@
 ﻿using Sylvan.AspNetCore.Mvc;
+using Sylvan.AspNetCore.Mvc.Formatters;
 using System.Data.Common;
 
 namespace Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,17 @@ namespace Microsoft.AspNetCore.Mvc;
 /// </summary>
 public static class SylvanCsvExtensions
 {
+	/// <summary>
+	/// Registers both the CSV input and output formatters using the default options.
+	/// </summary>
+	public static MvcOptions AddSylvanCsvFormatters(this MvcOptions opts)
+	{
+		opts.InputFormatters.Add(new CsvInputFormatter());
+		opts.OutputFormatters.Add(new CsvOutputFormatter());
+
+		return opts;
+	}
+
 	/// <summary>
 	/// Returns a CSV result.
 	/// </summary>

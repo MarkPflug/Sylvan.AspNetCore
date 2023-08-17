@@ -10,7 +10,6 @@ namespace Sylvan.AspNetCore.Mvc;
 namespace Sylvan.AspNetCore.Http;
 #endif
 
-
 class ExcelResult :
 #if MVC
     Microsoft.AspNetCore.Mvc.IActionResult
@@ -39,14 +38,12 @@ class ExcelResult :
 			response.Headers.ContentDisposition = $"attachment; filename=\"{filename}\"";
 		}
 		using var stream = new PooledMemoryStream();
+		using (var dw = ExcelDataWriter.Create(stream, this.type))
 		{
-			using (var dw = ExcelDataWriter.Create(stream, this.type))
-			{
-				await dw.WriteAsync(data);
-			}
-			stream.Seek(0, SeekOrigin.Begin);
-			await stream.CopyToAsync(response.Body);
+			await dw.WriteAsync(data);
 		}
+		stream.Seek(0, SeekOrigin.Begin);
+		await stream.CopyToAsync(response.Body);
 	}
 
 #if MVC

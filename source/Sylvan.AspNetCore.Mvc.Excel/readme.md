@@ -1,7 +1,7 @@
-﻿# Sylvan.AspNetCore.Mvc.Formatters.Excel
+﻿# Sylvan.AspNetCore.Mvc.Excel
 
-This package provides support for Excel content negotiation for handling tabular data in ASP.NET Core web APIs.
-It allows a client to choose to send and receive Excel data by specifying the appropriate `ContentType` or `Accept` HTTP headers. This library uses `Sylvan.Data.Excel` to provide the fastest Excel processing available in .NET.
+This package provides support for Excel file responses and content negotiation for handling tabular data in ASP.NET Core web APIs.
+It allows a client to choose to send and receive Excel data by specifying the appropriate `ContentType` or `Accept` HTTP headers. This library uses `Sylvan.Data.Excel` to provide an extremely efficient of Excel processing.
 
 ## InputFormatter
 
@@ -17,7 +17,7 @@ The input formatter can handle APIs that accept `IDataReader`, `DbDataReader`, o
 
 The output formatter can handle API methods that return `IDataReader`, `DbDataReader`, or `IEnumerable<T>` where T is some complex object.
 
-The output formatter only supports the .xlsx content-type for the `Accept` header.
+The output formatter supports the .xlsx and .xlsb content-types for the `Accept` header.
 
 ## Usage
 
