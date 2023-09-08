@@ -1,20 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc.Formatters;
 using Sylvan.Data.Csv;
-using System;
 using System.Buffers;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Data.Common;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
 /// <summary>
 /// Output formatter for converting API results to text/csv HTTP response body.
 /// </summary>
-public class CsvOutputFormatter : TextOutputFormatter
+public sealed class CsvOutputFormatter : TextOutputFormatter
 {
 	Action<CsvDataWriterOptions>? options;
 
@@ -36,9 +31,9 @@ public class CsvOutputFormatter : TextOutputFormatter
 	}
 
 	/// <inheritdoc/>
-	protected override bool CanWriteType(Type type)
+	protected override bool CanWriteType(Type? type)
 	{
-		return FormatterUtils.CanWriteType(type);
+		return type != null && FormatterUtils.CanWriteType(type);
 	}
 
 	/// <inheritdoc/>
@@ -55,7 +50,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 	}
 
 	/// <inheritdoc/>
-	public override IReadOnlyList<string> GetSupportedContentTypes(string contentType, Type objectType)
+	public override IReadOnlyList<string>? GetSupportedContentTypes(string contentType, Type objectType)
 	{
 		var items = base.GetSupportedContentTypes(contentType, objectType);
 		return items;
@@ -83,7 +78,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 		await using var csv = CsvDataWriter.Create(tw, rentedBuffer, opts);
 
 		var data = context.Object;
-		var reader = FormatterUtils.GetReader(data);
+		await using var reader = FormatterUtils.GetReader(data);
 
 		// TODO: consider adding the ability to include schema info
 		// by applying an attribute to the API method.
@@ -94,7 +89,6 @@ public class CsvOutputFormatter : TextOutputFormatter
 
 		await csv.WriteAsync(reader);
 
-		await reader.DisposeAsync();
 		if (rentedBuffer != null)
 		{
 			ArrayPool<char>.Shared.Return(rentedBuffer);

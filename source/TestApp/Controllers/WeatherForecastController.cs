@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
 using Sylvan.Data.Excel;
@@ -15,21 +14,17 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace TestApp.Controllers;
+
 [ApiController]
 [Route("[controller]")]
 public class WeatherForecastController : Controller
 {
-	private static readonly string[] Summaries = new[]
+	static readonly string[] Summaries = new[]
 	{
-		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+		"Freezing", "Bracing", "Chilly", 
+		"Cool", "Mild", "Warm", "Balmy", 
+		"Hot", "Sweltering", "Scorching"
 	};
-
-	private readonly ILogger<WeatherForecastController> _logger;
-
-	public WeatherForecastController(ILogger<WeatherForecastController> logger)
-	{
-		_logger = logger;
-	}
 
 	static List<WeatherForecast> Data;
 
@@ -38,7 +33,7 @@ public class WeatherForecastController : Controller
 		var rng = new Random(1);
 		var today = DateTime.Today;
 		Data =
-			Enumerable.Range(1, 1000)
+			Enumerable.Range(1, 10000)
 			.Select(index => new WeatherForecast
 			{
 				Date = today.AddDays(index),
@@ -111,7 +106,6 @@ public class WeatherForecastController : Controller
 	[HttpPost("postme")]
 	public object PostMe(IFormFile data)
 	{
-
 		DbDataReader reader;
 
 		var stream = data.OpenReadStream();
@@ -139,8 +133,8 @@ public class WeatherForecastController : Controller
 	[HttpGet("View")]
 	public IActionResult ViewForecast()
 	{
-		var data = Get();
-		return View(data);
+		var data = GetReader();
+		return View("ViewData", data);
 	}
 
 	async Task<SqlConnection> GetConnection()
@@ -198,6 +192,19 @@ public class WeatherForecastController : Controller
 	public double Baseline()
 	{
 		return 1d;
+	}
+
+	[HttpGet("dbtest")]
+	[Produces(CsvConstants.CsvContentType)]
+	public async Task<DbDataReader> DbTest()
+	{
+		// not "using", connection will be disposed when the reader is closed.
+		var conn = new SqlConnection("Integrated Security=true;Data Source=.;Initial Catalog=sc_dev");
+		await conn.OpenAsync();
+		var cmd = conn.CreateCommand();
+		cmd.CommandText = "select * from SC.Issue";
+		var r = await cmd.ExecuteReaderAsync(CommandBehavior.CloseConnection);
+		return r;
 	}
 
 	//[HttpGet("db")]

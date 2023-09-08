@@ -7,19 +7,20 @@ using System.Data.Common;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Sylvan.AspNetCore.Mvc.Formatters;
+namespace Sylvan.AspNetCore.Mvc;
 
 sealed class GenericDisposable : IDisposable
 {
-	readonly Action a;
+	readonly Action disposeAction;
 
-	public GenericDisposable(Action a)
+	public GenericDisposable(Action disposeAction)
 	{
-		this.a = a;
+		this.disposeAction = disposeAction;
 	}
+
 	public void Dispose()
 	{
-		a();
+		disposeAction();
 	}
 }
 
@@ -40,7 +41,6 @@ static class FormatterUtils
 				typeof(DataBinder)
 				.GetMethod("Create", 1, BindingFlags.Static | BindingFlags.Public, null, new Type[] { typeof(ReadOnlyCollection<DbColumn>), typeof(DataBinderOptions) }, null)!;
 
-
 	static FormatterUtils()
 	{
 		syncObjectDataReaderCreateMethod = GetObjectDataReaderCreateMethod(typeof(IEnumerable<>));
@@ -59,8 +59,6 @@ static class FormatterUtils
 		}
 		return binder;
 	}
-
-
 
 	internal static Func<IDataBinder, DbDataReader, object> GetReaderFactory(Type modelType)
 	{
@@ -86,7 +84,6 @@ static class FormatterUtils
 		}
 		return readerFactory;
 	}
-
 
 	static MethodInfo GetObjectDataReaderCreateMethod(Type seqType)
 	{
@@ -149,7 +146,7 @@ static class FormatterUtils
 
 	static Func<object, DbDataReader> GetObjectReaderFactory(Type type)
 	{
-		return objectReaderFactories.GetOrAdd(type, FormatterUtils.BuildObjectReaderFactory);
+		return objectReaderFactories.GetOrAdd(type, BuildObjectReaderFactory);
 	}
 
 	internal static bool IsComplexIEnumerableT(Type t)
@@ -196,6 +193,7 @@ static class FormatterUtils
 				return lambda.Compile();
 			}
 		}
+
 		foreach (var iface in type.GetInterfaces())
 		{
 			if (iface.IsGenericType && iface.GetGenericTypeDefinition() == typeof(IEnumerable<>))
@@ -223,16 +221,14 @@ static class FormatterUtils
 	}
 }
 
-
-class DataReader<T> :
-		IEnumerable<T>,
-		IAsyncEnumerable<T>,
-		IAsyncDisposable
-		where T : new()
+sealed class DataReader<T> :
+	IEnumerable<T>,
+	IAsyncEnumerable<T>,
+	IAsyncDisposable
+	where T : new()
 {
-
-	DbDataReader data;
-	IDataBinder<T> binder;
+	readonly DbDataReader data;
+	readonly IDataBinder<T> binder;
 
 	public DataReader(DbDataReader data, object binder)
 	{
@@ -245,10 +241,11 @@ class DataReader<T> :
 		return data.DisposeAsync();
 	}
 
-	public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+	public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancel = default)
 	{
-		while (await data.ReadAsync())
+		while (await data.ReadAsync(cancel))
 		{
+			cancel.ThrowIfCancellationRequested();
 			var record = new T();
 			binder.Bind(data, record);
 			yield return record;

@@ -2,18 +2,14 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="..\Sylvan.AspNetCore.Mvc.Formatters.Excel\NoCloseStream.cs" Link="NoCloseStream.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
-    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="6.0.10" />
-    <ProjectReference Include="..\TestApp\TestApp.csproj" />
+    <PackageReference Include="BenchmarkDotNet" Version="0.13.8" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="7.0.10" />
+    <ProjectReference Include="..\TestApp\TestAppMvc.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
-﻿# Sylvan.AspNetCore.Mvc.Formatters.Csv
+﻿# Sylvan.AspNetCore.Mvc.Csv
 
-This package provides support for CSV content negotiation for handling tabular data in ASP.NET Core web APIs.
+This package provides support for CSV responses and content negotiation for handling tabular data in ASP.NET Core web APIs.
 It allows a client to choose to send and receive CSV data by specifying `text/csv` for the `ContentType` or `Accept` HTTP headers.
 
 JSON is a great format for serializing structured, heirarchical data. 

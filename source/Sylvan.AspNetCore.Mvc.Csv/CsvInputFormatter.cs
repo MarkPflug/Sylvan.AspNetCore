@@ -14,7 +14,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters;
 /// <summary>
 /// Input formatter for converting text/csv HTTP request body.
 /// </summary>
-public class CsvInputFormatter : TextInputFormatter
+public sealed class CsvInputFormatter : TextInputFormatter
 {
 	readonly Action<CsvDataReaderOptions> options;
 
@@ -34,7 +34,7 @@ public class CsvInputFormatter : TextInputFormatter
 		this.options = options;
 		SupportedEncodings.Add(Encoding.UTF8);
 		SupportedEncodings.Add(Encoding.Unicode);
-		SupportedMediaTypes.Add("text/csv");
+		SupportedMediaTypes.Add(CsvConstants.CsvContentType);
 	}
 
 	/// <inheritdoc/>
@@ -43,12 +43,13 @@ public class CsvInputFormatter : TextInputFormatter
 		Encoding encoding
 	)
 	{
+		var cancel = context.HttpContext.RequestAborted;
 		// request body must be buffered to avoid an issue where the response overlaps the
 		// incoming request and ends up blocking: https://github.com/dotnet/aspnetcore/issues/44525
 		// TODO: When the model is IEnumerable/IAsyncEnumerable, investigate buffering
 		// the materialized sequence instead, which is what the json formatter does.
 		var stream = new PooledMemoryStream();
-		await context.HttpContext.Request.Body.CopyToAsync(stream);
+		await context.HttpContext.Request.Body.CopyToAsync(stream, cancel);
 		stream.Seek(0, SeekOrigin.Begin);
 		var reader = context.ReaderFactory(stream, encoding);
 
@@ -121,10 +122,11 @@ public class CsvInputFormatter : TextInputFormatter
 
 		var rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
 		context.HttpContext.Response.RegisterForDispose(new GenericDisposable(() => ArrayPool<char>.Shared.Return(rentedBuffer)));
-		var csv = await CsvDataReader.CreateAsync(reader, opts);
+		var csv = await CsvDataReader.CreateAsync(reader, rentedBuffer, opts, cancel);
 
 		var modelType = context.ModelType;
 
+		// TODO: modeltype is assignable to?
 		if (modelType == typeof(DbDataReader) || modelType == typeof(IDataReader) || modelType == typeof(CsvDataReader))
 		{
 			return InputFormatterResult.Success(csv);
@@ -139,7 +141,16 @@ public class CsvInputFormatter : TextInputFormatter
 			if (genType == typeof(IAsyncEnumerable<>) || genType == typeof(IEnumerable<>))
 			{
 				var targetType = modelType.GetGenericArguments()[0];
-				var binder = FormatterUtils.GetObjectBinder(targetType, schema, new DataBinderOptions { BindingMode = DataBindingMode.Any, InferColumnTypeFromMember = true });
+				var binder =
+					FormatterUtils.GetObjectBinder(
+						targetType,
+						schema,
+						new DataBinderOptions
+						{
+							BindingMode = DataBindingMode.AllProperties,
+							InferColumnTypeFromMember = true
+						}
+					);
 
 				var fac = FormatterUtils.GetReaderFactory(modelType);
 				var seqReader = fac(binder, csv);

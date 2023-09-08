@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Sylvan.AspNetCore.Mvc.Formatters;
+using Sylvan.AspNetCore.Mvc.JsonData;
 using Sylvan.Data.Csv;
 using System.Text;
 
@@ -25,6 +27,7 @@ public class Startup
 		services.AddControllers(
 			o =>
 			{
+				o.OutputFormatters.Insert(0, new JsonDataOutputFormatter());
 				o.AddSylvanCsvFormatters();
 				o.AddSylvanExcelFormatters();
 			}

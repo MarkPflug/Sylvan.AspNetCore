@@ -15,11 +15,12 @@ public class OutputFormatterBenchmarks
 
 	const int IterationCount = 100;
 
-	private readonly TestServer server;
-	private readonly HttpClient jsonClient;
-	private readonly HttpClient csvClient;
-	private readonly HttpClient csvDataClient;
-	private readonly HttpClient excelClient;
+	readonly TestServer server;
+	readonly HttpClient jsonClient;
+	readonly HttpClient csvClient;
+	readonly HttpClient csvDataClient;
+	readonly HttpClient xlsxClient;
+	readonly HttpClient xlsbClient;
 
 	public OutputFormatterBenchmarks()
 	{
@@ -42,16 +43,21 @@ public class OutputFormatterBenchmarks
 		csvDataAccept.Clear();
 		csvDataAccept.Add(new MediaTypeWithQualityHeaderValue("text/csv"));
 
-		excelClient = server.CreateClient();
-		var ecxelAccept = excelClient.DefaultRequestHeaders.Accept;
-		ecxelAccept.Clear();
-		ecxelAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+		xlsxClient = server.CreateClient();
+		var xlsxAccept = xlsxClient.DefaultRequestHeaders.Accept;
+		xlsxAccept.Clear();
+		xlsxAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
 
+		xlsbClient = server.CreateClient();
+		var xlsbAccept = xlsbClient.DefaultRequestHeaders.Accept;
+		xlsbAccept.Clear();
+		xlsbAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.ms-excel.sheet.binary.macroEnabled.12"));
 
-		this.RecordCount = 4;
+		//this.RecordCount = 4;
 	}
 
-	[Params(10, 100, 1000)]
+	//[Params(10, 100, 1000)]
+	[Params(10000)]
 	public int RecordCount { get; set; }
 
 	[Benchmark]
@@ -60,6 +66,18 @@ public class OutputFormatterBenchmarks
 		for (int i = 0; i < IterationCount; i++)
 		{
 			var response = await jsonClient.GetAsync(EndPoint + RecordCount);
+			response.EnsureSuccessStatusCode();
+			var responseString = await response.Content.ReadAsStringAsync();
+			var l = responseString.Length;
+		}
+	}
+
+	[Benchmark]
+	public async Task JsonData()
+	{
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var response = await jsonClient.GetAsync(DataEndPoint + RecordCount);
 			response.EnsureSuccessStatusCode();
 			var responseString = await response.Content.ReadAsStringAsync();
 			var l = responseString.Length;
@@ -91,11 +109,23 @@ public class OutputFormatterBenchmarks
 	}
 
 	[Benchmark]
-	public async Task Excel()
+	public async Task ExcelXlsx()
 	{
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var response = await excelClient.GetAsync(EndPoint + RecordCount);
+			var response = await xlsxClient.GetAsync(EndPoint + RecordCount);
+			response.EnsureSuccessStatusCode();
+			var responseString = await response.Content.ReadAsStringAsync();
+			var l = responseString.Length;
+		}
+	}
+
+	[Benchmark]
+	public async Task ExcelXlsb()
+	{
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var response = await xlsbClient.GetAsync(EndPoint + RecordCount);
 			response.EnsureSuccessStatusCode();
 			var responseString = await response.Content.ReadAsStringAsync();
 			var l = responseString.Length;

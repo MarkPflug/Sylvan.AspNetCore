@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using TestApp;
 
@@ -24,13 +25,12 @@ public class InputFormatterBenchmarks
 	const int IterationCount = 100;
 
 	private readonly TestServer server;
-	private readonly HttpClient jsonClient;
-	private readonly HttpClient csvClient;
-	private readonly HttpClient excelClient;
+	private readonly HttpClient client;
 
 	byte[] jsonPayload;
 	byte[] csvPayload;
-	byte[] excelPayload;
+	byte[] xlsxPayload;
+	byte[] xlsbPayload;
 
 	static IEnumerable<WeatherForecast> GenerateData(int count)
 	{
@@ -51,13 +51,15 @@ public class InputFormatterBenchmarks
 	{
 		server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
 
-		jsonClient = server.CreateClient();
-		csvClient = server.CreateClient();
-		excelClient = server.CreateClient();
+		client = server.CreateClient();
+
 		this.RecordCount = 10;
+
+		GenerateData();
 	}
 
-	[Params(10, 100, 1000)]
+	//[Params(10, 100, 1000)]
+	[Params(1000)]
 	public int RecordCount { get; set; }
 
 	double average;
@@ -71,25 +73,20 @@ public class InputFormatterBenchmarks
 			this.averageStr = average.ToString();
 		}
 
-		if (jsonPayload == null)
-		{
-			jsonPayload = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(GenerateData(RecordCount));
-		}
+		jsonPayload = System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(GenerateData(RecordCount));
 
-		if (csvPayload == null)
 		{
 			var ms = new MemoryStream();
-			var s = new NoCloseStream(ms);
-			var tw = new StreamWriter(s);
+			var tw = new StreamWriter(ms, Encoding.UTF8, -1, true);
 			var cw = CsvDataWriter.Create(tw);
 			cw.Write(GenerateData(RecordCount).AsDataReader());
 			tw.Flush();
 			this.csvPayload = new byte[ms.Length];
 			ms.Seek(0, SeekOrigin.Begin);
 			ms.Read(csvPayload, 0, csvPayload.Length);
+
 		}
 
-		if (excelPayload == null)
 		{
 			var ms = new MemoryStream();
 			var s = new NoCloseStream(ms);
@@ -97,9 +94,21 @@ public class InputFormatterBenchmarks
 			{
 				cw.Write(GenerateData(RecordCount).AsDataReader());
 			}
-			this.excelPayload = new byte[ms.Length];
+			this.xlsxPayload = new byte[ms.Length];
 			ms.Seek(0, SeekOrigin.Begin);
-			ms.Read(excelPayload, 0, excelPayload.Length);
+			ms.Read(xlsxPayload, 0, xlsxPayload.Length);
+		}
+
+		{
+			var ms = new MemoryStream();
+			var s = new NoCloseStream(ms);
+			using (var cw = ExcelDataWriter.Create(s, ExcelWorkbookType.ExcelBinary))
+			{
+				cw.Write(GenerateData(RecordCount).AsDataReader());
+			}
+			this.xlsbPayload = new byte[ms.Length];
+			ms.Seek(0, SeekOrigin.Begin);
+			ms.Read(xlsbPayload, 0, xlsbPayload.Length);
 		}
 	}
 
@@ -108,93 +117,99 @@ public class InputFormatterBenchmarks
 	{
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var response = await jsonClient.GetAsync(BaselineEndPoint);
+			var response = await client.GetAsync(BaselineEndPoint);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
 		}
 	}
 
 	[Benchmark]
 	public async Task Json()
 	{
-		GenerateData();
+		var content = new ByteArrayContent(jsonPayload);
+		content.Headers.Add("Content-Type", "application/json");
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var content = new ByteArrayContent(jsonPayload);
-			content.Headers.Add("Content-Type", "application/json");
-
-			var response = await jsonClient.PostAsync(EndPoint, content);
+			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
-		}
-	}
-
-
-	[Benchmark]
-	public async Task Excel()
-	{
-		GenerateData();
-		for (int i = 0; i < IterationCount; i++)
-		{
-			var content = new ByteArrayContent(excelPayload);
-			content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-
-			var response = await excelClient.PostAsync(EndPoint, content);
-			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
-			if (responseString != this.averageStr)
-				throw new Exception();
 		}
 	}
 
 	[Benchmark]
-	public async Task ExcelData()
+	public async Task ExcelXlsb()
 	{
-		GenerateData();
+		var content = new ByteArrayContent(xlsbPayload);
+		content.Headers.Add("Content-Type", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var content = new ByteArrayContent(excelPayload);
+			var response = await client.PostAsync(EndPoint, content);
+			response.EnsureSuccessStatusCode();
+		}
+	}
+
+	[Benchmark]
+	public async Task ExcelXlsbData()
+	{
+		var content = new ByteArrayContent(xlsbPayload);
+		content.Headers.Add("Content-Type", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var response = await client.PostAsync(DataEndPoint, content);
+			response.EnsureSuccessStatusCode();
+		}
+	}
+
+	[Benchmark]
+	public async Task ExcelXlsx()
+	{
+		var content = new ByteArrayContent(xlsxPayload);
+		content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var response = await client.PostAsync(EndPoint, content);
+			response.EnsureSuccessStatusCode();
+		}
+	}
+
+	[Benchmark]
+	public async Task ExcelXlsxData()
+	{
+		for (int i = 0; i < IterationCount; i++)
+		{
+			var content = new ByteArrayContent(xlsxPayload);
 			content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
-			var response = await excelClient.PostAsync(DataEndPoint, content);
+			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
-			if (responseString != this.averageStr)
-				throw new Exception();
 		}
 	}
 
 	[Benchmark]
 	public async Task Csv()
 	{
-		GenerateData();
+		var content = new ByteArrayContent(csvPayload);
+		content.Headers.Add("Content-Type", "text/csv");
+		//content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var content = new ByteArrayContent(csvPayload);
-			content.Headers.Add("Content-Type", "text/csv");
-			//content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
-
-			var response = await csvClient.PostAsync(EndPoint, content);
+			var response = await client.PostAsync(EndPoint, content);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
-			if (responseString != this.averageStr)
-				throw new Exception();
 		}
 	}
 
 	[Benchmark]
 	public async Task CsvData()
 	{
-		GenerateData();
 		for (int i = 0; i < IterationCount; i++)
 		{
 			var content = new ByteArrayContent(csvPayload);
 			content.Headers.Add("Content-Type", "text/csv");
 			//content.Headers.Add("Csv-Schema", "Date:DateTime,TemperatureC:int,TemperatureF:int,Summary");
 
-			var response = await csvClient.PostAsync(DataEndPoint, content);
+			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();
-			var responseString = await response.Content.ReadAsStringAsync();
 		}
 	}
 }

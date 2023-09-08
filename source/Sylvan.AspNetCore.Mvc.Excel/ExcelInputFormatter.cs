@@ -2,27 +2,14 @@
 using Sylvan.Data;
 using Sylvan.Data.Excel;
 using Sylvan.IO;
-using System.Buffers;
-using System.Data;
-using System.Data.Common;
 
 namespace Sylvan.AspNetCore.Mvc.Formatters;
 
 /// <summary>
 /// Input formatter for converting text/csv HTTP request body.
 /// </summary>
-public class ExcelInputFormatter : InputFormatter
+public sealed class ExcelInputFormatter : InputFormatter
 {
-	static Dictionary<string, ExcelWorkbookType> MimeMap;
-
-	static ExcelInputFormatter()
-	{
-		MimeMap = new Dictionary<string, ExcelWorkbookType>(StringComparer.OrdinalIgnoreCase);
-		MimeMap.Add(ExcelConstants.XlsxContentType, ExcelWorkbookType.ExcelXml);
-		MimeMap.Add(ExcelConstants.XlsbContentType, ExcelWorkbookType.ExcelBinary);
-		MimeMap.Add(ExcelConstants.XlsContentType, ExcelWorkbookType.Excel);
-	}
-
 	readonly Action<ExcelDataReaderOptions> options;
 
 	/// <summary>
@@ -39,17 +26,17 @@ public class ExcelInputFormatter : InputFormatter
 	public ExcelInputFormatter(Action<ExcelDataReaderOptions> options)
 	{
 		this.options = options;
-		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
+		foreach(var type in ExcelFileType.ReaderSupported)
+		{
+			SupportedMediaTypes.Add(type.ContentType);
+
+		}
 	}
 
 	static ExcelWorkbookType GetWorkbookType(string contentType)
 	{
 		return
-			MimeMap.TryGetValue(contentType, out var value)
-			? value
-			: ExcelWorkbookType.Unknown;
+			ExcelFileType.FindForContentType(contentType)?.WorkbookType ?? ExcelWorkbookType.Unknown;
 	}
 
 	/// <inheritdoc/>
@@ -59,12 +46,17 @@ public class ExcelInputFormatter : InputFormatter
 		this.options?.Invoke(opts);
 		opts.OwnsStream = true;
 
-		var ms = new PooledMemoryStream(ArrayPool<byte>.Shared, 12);
+		var ms = new PooledMemoryStream();
 
 		await context.HttpContext.Request.Body.CopyToAsync(ms);
 		ms.Seek(0, SeekOrigin.Begin);
 
-		var workbookType = GetWorkbookType(context.HttpContext.Request.ContentType);
+		var contentType = context.HttpContext.Request.ContentType;
+		if (contentType == null)
+		{
+			return InputFormatterResult.Failure();
+		}
+		var workbookType = GetWorkbookType(contentType);
 
 		var edr = ExcelDataReader.Create(ms, workbookType, opts);
 
@@ -73,7 +65,7 @@ public class ExcelInputFormatter : InputFormatter
 
 		var modelType = context.ModelType;
 
-		if (modelType == typeof(DbDataReader) || modelType == typeof(IDataReader) || modelType == typeof(ExcelDataReader))
+		if (modelType.IsAssignableFrom(typeof(ExcelDataReader)))
 		{
 			return InputFormatterResult.Success(edr);
 		}

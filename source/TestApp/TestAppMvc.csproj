@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <DisableImplicitNamespaceImports>true</DisableImplicitNamespaceImports>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.118" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Sylvan.AspNetCore.Mvc.Csv\Sylvan.AspNetCore.Mvc.Csv.csproj" />
+    <ProjectReference Include="..\Sylvan.AspNetCore.Mvc.Excel\Sylvan.AspNetCore.Mvc.Excel.csproj" />
+    <ProjectReference Include="..\Sylvan.AspNetCore.Mvc.JsonData\Sylvan.AspNetCore.Mvc.JsonData.csproj" />
+    <ProjectReference Include="..\Sylvan.AspNetCore.TagHelpers\Sylvan.AspNetCore.TagHelpers.csproj" />
+  </ItemGroup>
+
+</Project>
