@@ -194,8 +194,7 @@ public class WeatherForecastController : Controller
 		return 1d;
 	}
 
-	[HttpGet("dbtest")]
-	[Produces(CsvConstants.CsvContentType)]
+	
 	public async Task<DbDataReader> DbTest()
 	{
 		// not "using", connection will be disposed when the reader is closed.
