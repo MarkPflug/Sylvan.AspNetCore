@@ -8,7 +8,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters;
 /// <summary>
 /// Output formatter for converting API results to text/csv HTTP response body.
 /// </summary>
-public class ExcelOutputFormatter : OutputFormatter
+public sealed class ExcelOutputFormatter : OutputFormatter
 {
 	Action<ExcelDataWriterOptions>? options;
 
@@ -24,9 +24,10 @@ public class ExcelOutputFormatter : OutputFormatter
 	public ExcelOutputFormatter(Action<ExcelDataWriterOptions>? options)
 	{
 		this.options = options;
-		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
+		foreach (var type in ExcelFileType.WriterSupported)
+		{
+			SupportedMediaTypes.Add(type.ContentType);
+		}
 	}
 
 	/// <inheritdoc/>
@@ -38,10 +39,14 @@ public class ExcelOutputFormatter : OutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return
-			context.ContentType.Value == ExcelConstants.XlsxContentType ||
-			context.ContentType.Value == ExcelConstants.XlsbContentType ||
-			context.ContentType.Value == ExcelConstants.XlsContentType;
+		foreach (var type in ExcelFileType.WriterSupported)
+		{
+			if (StringComparer.OrdinalIgnoreCase.Equals(context.ContentType.Value, type.ContentType))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/// <inheritdoc/>
@@ -54,16 +59,13 @@ public class ExcelOutputFormatter : OutputFormatter
 	/// <inheritdoc/>
 	public async override Task WriteResponseBodyAsync(OutputFormatterWriteContext context)
 	{
+		var cancel = context.HttpContext.RequestAborted;
 		var opts = new ExcelDataWriterOptions();
 		this.options?.Invoke(opts);
 
 		var wbType =
-			context.ContentType.Value switch
-			{
-				ExcelConstants.XlsbContentType => ExcelWorkbookType.ExcelBinary,
-				ExcelConstants.XlsxContentType => ExcelWorkbookType.ExcelXml,
-				_ => ExcelWorkbookType.Unknown,
-			};
+			ExcelFileType.FindForContentType(context.ContentType.Value)?.WorkbookType
+			?? ExcelWorkbookType.Unknown;
 
 		if (wbType == ExcelWorkbookType.Unknown)
 		{

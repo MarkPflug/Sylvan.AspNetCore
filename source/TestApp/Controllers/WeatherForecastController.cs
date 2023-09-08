@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
 using Sylvan.Data.Excel;
@@ -20,17 +19,12 @@ namespace TestApp.Controllers;
 [Route("[controller]")]
 public class WeatherForecastController : Controller
 {
-	private static readonly string[] Summaries = new[]
+	static readonly string[] Summaries = new[]
 	{
-		"Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+		"Freezing", "Bracing", "Chilly", 
+		"Cool", "Mild", "Warm", "Balmy", 
+		"Hot", "Sweltering", "Scorching"
 	};
-
-	private readonly ILogger<WeatherForecastController> _logger;
-
-	public WeatherForecastController(ILogger<WeatherForecastController> logger)
-	{
-		_logger = logger;
-	}
 
 	static List<WeatherForecast> Data;
 
@@ -112,7 +106,6 @@ public class WeatherForecastController : Controller
 	[HttpPost("postme")]
 	public object PostMe(IFormFile data)
 	{
-
 		DbDataReader reader;
 
 		var stream = data.OpenReadStream();
@@ -140,8 +133,8 @@ public class WeatherForecastController : Controller
 	[HttpGet("View")]
 	public IActionResult ViewForecast()
 	{
-		var data = Get();
-		return View(data);
+		var data = GetReader();
+		return View("ViewData", data);
 	}
 
 	async Task<SqlConnection> GetConnection()
@@ -202,7 +195,7 @@ public class WeatherForecastController : Controller
 	}
 
 	[HttpGet("dbtest")]
-	[Produces("text/csv")]
+	[Produces(CsvConstants.CsvContentType)]
 	public async Task<DbDataReader> DbTest()
 	{
 		// not "using", connection will be disposed when the reader is closed.

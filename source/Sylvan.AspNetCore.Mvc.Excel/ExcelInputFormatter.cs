@@ -8,20 +8,8 @@ namespace Sylvan.AspNetCore.Mvc.Formatters;
 /// <summary>
 /// Input formatter for converting text/csv HTTP request body.
 /// </summary>
-public class ExcelInputFormatter : InputFormatter
+public sealed class ExcelInputFormatter : InputFormatter
 {
-	static Dictionary<string, ExcelWorkbookType> MimeMap;
-
-	static ExcelInputFormatter()
-	{
-		MimeMap = new Dictionary<string, ExcelWorkbookType>(StringComparer.OrdinalIgnoreCase)
-		{
-			{ ExcelConstants.XlsxContentType, ExcelWorkbookType.ExcelXml },
-			{ ExcelConstants.XlsbContentType, ExcelWorkbookType.ExcelBinary },
-			{ ExcelConstants.XlsContentType, ExcelWorkbookType.Excel }
-		};
-	}
-
 	readonly Action<ExcelDataReaderOptions> options;
 
 	/// <summary>
@@ -38,17 +26,17 @@ public class ExcelInputFormatter : InputFormatter
 	public ExcelInputFormatter(Action<ExcelDataReaderOptions> options)
 	{
 		this.options = options;
-		SupportedMediaTypes.Add(ExcelConstants.XlsxContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsbContentType);
-		SupportedMediaTypes.Add(ExcelConstants.XlsContentType);
+		foreach(var type in ExcelFileType.ReaderSupported)
+		{
+			SupportedMediaTypes.Add(type.ContentType);
+
+		}
 	}
 
 	static ExcelWorkbookType GetWorkbookType(string contentType)
 	{
 		return
-			MimeMap.TryGetValue(contentType, out var value)
-			? value
-			: ExcelWorkbookType.Unknown;
+			ExcelFileType.FindForContentType(contentType)?.WorkbookType ?? ExcelWorkbookType.Unknown;
 	}
 
 	/// <inheritdoc/>

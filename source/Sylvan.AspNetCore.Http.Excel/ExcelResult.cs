@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Sylvan.Data;
 using Sylvan.Data.Excel;
-using Sylvan.IO;
 using System.Data.Common;
 
 #if MVC
@@ -10,13 +9,12 @@ namespace Sylvan.AspNetCore.Mvc;
 namespace Sylvan.AspNetCore.Http;
 #endif
 
-class ExcelResult :
+public class ExcelResult :
 #if MVC
     Microsoft.AspNetCore.Mvc.IActionResult
 #else
 	IResult
 #endif
-
 {
 	readonly DbDataReader data;
 	readonly string? filename;
@@ -32,18 +30,15 @@ class ExcelResult :
 	public async Task ExecuteAsync(HttpContext httpContext)
 	{
 		var response = httpContext.Response;
-		response.ContentType = ExcelConstants.GetExcelContentType(this.type);
+		response.ContentType = ExcelFileType.GetForWorkbookType(this.type).ContentType;
 		if (filename != null)
 		{
 			response.Headers.ContentDisposition = $"attachment; filename=\"{filename}\"";
 		}
-		using var stream = new PooledMemoryStream();
-		using (var dw = ExcelDataWriter.Create(stream, this.type))
+		await using (var dw = await ExcelDataWriter.CreateAsync(response.Body, this.type))
 		{
 			await dw.WriteAsync(data);
-		}
-		stream.Seek(0, SeekOrigin.Begin);
-		await stream.CopyToAsync(response.Body);
+		}		
 	}
 
 #if MVC
@@ -55,7 +50,7 @@ class ExcelResult :
 
 }
 
-class ExcelResult<T> : ExcelResult
+public class ExcelResult<T> : ExcelResult
 	where T : class
 {
 	public ExcelResult(IEnumerable<T> data, ExcelWorkbookType type, string? filename = null)

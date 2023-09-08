@@ -9,7 +9,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters;
 /// <summary>
 /// Output formatter for converting API results to text/csv HTTP response body.
 /// </summary>
-public class CsvOutputFormatter : TextOutputFormatter
+public sealed class CsvOutputFormatter : TextOutputFormatter
 {
 	Action<CsvDataWriterOptions>? options;
 
@@ -78,7 +78,7 @@ public class CsvOutputFormatter : TextOutputFormatter
 		await using var csv = CsvDataWriter.Create(tw, rentedBuffer, opts);
 
 		var data = context.Object;
-		var reader = FormatterUtils.GetReader(data);
+		await using var reader = FormatterUtils.GetReader(data);
 
 		// TODO: consider adding the ability to include schema info
 		// by applying an attribute to the API method.
@@ -89,7 +89,6 @@ public class CsvOutputFormatter : TextOutputFormatter
 
 		await csv.WriteAsync(reader);
 
-		await reader.DisposeAsync();
 		if (rentedBuffer != null)
 		{
 			ArrayPool<char>.Shared.Return(rentedBuffer);

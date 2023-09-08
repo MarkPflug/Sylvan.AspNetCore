@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -8,8 +8,11 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Sylvan.Common" Version="0.4.2" />
 		<PackageReference Include="Sylvan.Data" Version="0.2.12" />
-		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.16" />
 	</ItemGroup>
-	
+
+	<ItemGroup>
+		<Compile Include="..\Sylvan.AspNetCore.Mvc.Csv\FormatterUtils.cs" Link="FormatterUtils.cs" />
+	</ItemGroup>
 </Project>

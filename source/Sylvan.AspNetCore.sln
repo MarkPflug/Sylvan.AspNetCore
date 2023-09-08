@@ -35,6 +35,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Http.Exce
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Excel", "Sylvan.AspNetCore.Mvc.Excel\Sylvan.AspNetCore.Mvc.Excel.csproj", "{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.JsonData", "Sylvan.AspNetCore.Mvc.JsonData\Sylvan.AspNetCore.Mvc.JsonData.csproj", "{29F5B23F-50FB-4960-8E98-87F5FDC56045}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,18 @@ Global
 		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x64.Build.0 = Release|Any CPU
 		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x86.ActiveCfg = Release|Any CPU
 		{D5D66CD6-1B94-46E5-8AA0-7015F6CC4BA8}.Release|x86.Build.0 = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|x64.Build.0 = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Debug|x86.Build.0 = Debug|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|x64.ActiveCfg = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|x64.Build.0 = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|x86.ActiveCfg = Release|Any CPU
+		{29F5B23F-50FB-4960-8E98-87F5FDC56045}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

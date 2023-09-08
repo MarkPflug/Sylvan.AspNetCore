@@ -29,7 +29,7 @@ public class InputFormatterBenchmarks
 
 	byte[] jsonPayload;
 	byte[] csvPayload;
-	byte[] excelPayload;
+	byte[] xlsxPayload;
 	byte[] xlsbPayload;
 
 	static IEnumerable<WeatherForecast> GenerateData(int count)
@@ -59,7 +59,7 @@ public class InputFormatterBenchmarks
 	}
 
 	//[Params(10, 100, 1000)]
-	[Params(10000)]
+	[Params(1000)]
 	public int RecordCount { get; set; }
 
 	double average;
@@ -94,9 +94,9 @@ public class InputFormatterBenchmarks
 			{
 				cw.Write(GenerateData(RecordCount).AsDataReader());
 			}
-			this.excelPayload = new byte[ms.Length];
+			this.xlsxPayload = new byte[ms.Length];
 			ms.Seek(0, SeekOrigin.Begin);
-			ms.Read(excelPayload, 0, excelPayload.Length);
+			ms.Read(xlsxPayload, 0, xlsxPayload.Length);
 		}
 
 		{
@@ -163,7 +163,7 @@ public class InputFormatterBenchmarks
 	[Benchmark]
 	public async Task ExcelXlsx()
 	{
-		var content = new ByteArrayContent(excelPayload);
+		var content = new ByteArrayContent(xlsxPayload);
 		content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 		for (int i = 0; i < IterationCount; i++)
@@ -178,7 +178,7 @@ public class InputFormatterBenchmarks
 	{
 		for (int i = 0; i < IterationCount; i++)
 		{
-			var content = new ByteArrayContent(excelPayload);
+			var content = new ByteArrayContent(xlsxPayload);
 			content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 
 			var response = await client.PostAsync(DataEndPoint, content);

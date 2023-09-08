@@ -14,7 +14,7 @@ namespace Sylvan.AspNetCore.Mvc.Formatters;
 /// <summary>
 /// Input formatter for converting text/csv HTTP request body.
 /// </summary>
-public class CsvInputFormatter : TextInputFormatter
+public sealed class CsvInputFormatter : TextInputFormatter
 {
 	readonly Action<CsvDataReaderOptions> options;
 
@@ -119,8 +119,6 @@ public class CsvInputFormatter : TextInputFormatter
 			}
 			opts.Schema = schema;
 		}
-
-		//opts.StringFactory = new StringPool().GetString;
 
 		var rentedBuffer = ArrayPool<char>.Shared.Rent(opts.BufferSize);
 		context.HttpContext.Response.RegisterForDispose(new GenericDisposable(() => ArrayPool<char>.Shared.Return(rentedBuffer)));
