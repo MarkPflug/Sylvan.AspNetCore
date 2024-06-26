@@ -5,6 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 		<DefineConstants>MVC</DefineConstants>
+		<VersionPrefix>0.1.0</VersionPrefix>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,15 +15,9 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Sylvan.Common" Version="0.4.2" />
-		<PackageReference Include="Sylvan.Data" Version="0.2.12" />		
-		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.16" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="readme.md">
-	    <Pack>true</Pack>
-	  </None>
+		<PackageReference Include="Sylvan.Common" Version="0.4.3" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.15" />		
+		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.24" />
 	</ItemGroup>
 
 </Project>

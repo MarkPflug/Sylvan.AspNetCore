@@ -10,6 +10,18 @@ namespace Microsoft.AspNetCore.Http;
 /// </summary>
 public static class SylvanExcelExtensions
 {
+	public static IResult AsExcel<T>(this IEnumerable<T> data, ExcelWorkbookType type = ExcelWorkbookType.ExcelXml,
+		string? filename = null) where T : class
+	{
+		return new ExcelResult<T>(data, type, filename);
+	}
+
+	public static IResult ToExcel(this DbDataReader data, ExcelWorkbookType type = ExcelWorkbookType.ExcelXml,
+		string? filename = null) 
+	{
+		return new ExcelResult(data, type, filename);
+	}
+
 	/// <summary>
 	/// Returns an Excel result.
 	/// </summary>

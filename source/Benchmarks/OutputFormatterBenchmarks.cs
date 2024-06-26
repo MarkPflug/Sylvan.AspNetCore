@@ -57,7 +57,7 @@ public class OutputFormatterBenchmarks
 	}
 
 	//[Params(10, 100, 1000)]
-	[Params(10000)]
+	[Params(1000)]
 	public int RecordCount { get; set; }
 
 	[Benchmark]

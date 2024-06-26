@@ -1,4 +1,5 @@
-﻿using Sylvan.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Sylvan.AspNetCore.Http;
 using System.Data.Common;
 
 namespace Microsoft.AspNetCore.Http;
@@ -9,6 +10,10 @@ namespace Microsoft.AspNetCore.Http;
 /// </summary>
 public static class SylvanCsvExtensions
 {
+	public static void F(this WebApplicationBuilder b) {
+		
+	}
+
 	/// <summary>
 	/// Returns a CSV result.
 	/// </summary>

@@ -28,6 +28,11 @@ public class Startup
 			o =>
 			{
 				o.OutputFormatters.Insert(0, new JsonDataOutputFormatter());
+				//o.OutputFormatters.Add(
+				//	new CsvOutputFormatter(o => {
+				//	o.DateTimeFormat = "MM/dd/yyyy";
+				//		o., o.)
+				//	);
 				o.AddSylvanCsvFormatters();
 				o.AddSylvanExcelFormatters();
 			}
