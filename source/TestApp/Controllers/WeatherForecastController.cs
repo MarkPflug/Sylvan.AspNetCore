@@ -46,20 +46,14 @@ public class WeatherForecastController : Controller
 	[HttpGet]
 	public IEnumerable<WeatherForecast> Get(int count = 4)
 	{
-		if (count > Data.Count)
-		{
-			throw new ArgumentOutOfRangeException();
-		}
+		ArgumentOutOfRangeException.ThrowIfGreaterThan(count, Data.Count);
 		return Data.Take(count);
 	}
 
 	[HttpGet("GetReader")]
 	public DbDataReader GetReader(int count = 4)
 	{
-		if (count > Data.Count)
-		{
-			throw new ArgumentOutOfRangeException();
-		}
+		ArgumentOutOfRangeException.ThrowIfGreaterThan(count, Data.Count);
 		return Data.Take(count).AsDataReader();
 	}
 

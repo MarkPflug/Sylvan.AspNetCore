@@ -39,7 +39,12 @@ public sealed class CsvOutputFormatter : TextOutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return context.ContentType.Value == CsvConstants.CsvContentType;
+		if (!base.CanWriteResult(context))
+		{
+			return false;
+		}
+
+		return StringComparer.OrdinalIgnoreCase.Equals(context.ContentType.Value, CsvConstants.CsvContentType);
 	}
 
 	/// <inheritdoc/>
