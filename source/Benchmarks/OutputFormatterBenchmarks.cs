@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Sylvan.Data.Excel;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -46,18 +47,18 @@ public class OutputFormatterBenchmarks
 		xlsxClient = server.CreateClient();
 		var xlsxAccept = xlsxClient.DefaultRequestHeaders.Accept;
 		xlsxAccept.Clear();
-		xlsxAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
+		xlsxAccept.Add(new MediaTypeWithQualityHeaderValue(ExcelFileType.ExcelXmlContentType));
 
 		xlsbClient = server.CreateClient();
 		var xlsbAccept = xlsbClient.DefaultRequestHeaders.Accept;
 		xlsbAccept.Clear();
-		xlsbAccept.Add(new MediaTypeWithQualityHeaderValue("application/vnd.ms-excel.sheet.binary.macroEnabled.12"));
+		xlsbAccept.Add(new MediaTypeWithQualityHeaderValue(ExcelFileType.ExcelBinaryContentType));
 
 		//this.RecordCount = 4;
 	}
 
 	//[Params(10, 100, 1000)]
-	[Params(10000)]
+	[Params(1000)]
 	public int RecordCount { get; set; }
 
 	[Benchmark]

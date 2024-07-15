@@ -138,7 +138,7 @@ public class InputFormatterBenchmarks
 	public async Task ExcelXlsb()
 	{
 		var content = new ByteArrayContent(xlsbPayload);
-		content.Headers.Add("Content-Type", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+		content.Headers.Add("Content-Type", ExcelFileType.ExcelBinaryContentType);
 
 		for (int i = 0; i < IterationCount; i++)
 		{
@@ -151,7 +151,7 @@ public class InputFormatterBenchmarks
 	public async Task ExcelXlsbData()
 	{
 		var content = new ByteArrayContent(xlsbPayload);
-		content.Headers.Add("Content-Type", "application/vnd.ms-excel.sheet.binary.macroEnabled.12");
+		content.Headers.Add("Content-Type", ExcelFileType.ExcelBinaryContentType);
 
 		for (int i = 0; i < IterationCount; i++)
 		{
@@ -164,7 +164,7 @@ public class InputFormatterBenchmarks
 	public async Task ExcelXlsx()
 	{
 		var content = new ByteArrayContent(xlsxPayload);
-		content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+		content.Headers.Add("Content-Type", ExcelFileType.ExcelXmlContentType);
 
 		for (int i = 0; i < IterationCount; i++)
 		{
@@ -179,7 +179,7 @@ public class InputFormatterBenchmarks
 		for (int i = 0; i < IterationCount; i++)
 		{
 			var content = new ByteArrayContent(xlsxPayload);
-			content.Headers.Add("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+			content.Headers.Add("Content-Type", ExcelFileType.ExcelXmlContentType);
 
 			var response = await client.PostAsync(DataEndPoint, content);
 			response.EnsureSuccessStatusCode();

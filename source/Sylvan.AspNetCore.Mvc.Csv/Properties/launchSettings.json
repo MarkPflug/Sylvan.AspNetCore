@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Sylvan.AspNetCore.Mvc.Csv": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:59949;http://localhost:59950"
+    }
+  }
+}

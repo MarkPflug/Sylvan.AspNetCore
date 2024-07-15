@@ -7,7 +7,7 @@ using System.Text;
 namespace Sylvan.AspNetCore.Mvc.JsonData;
 
 /// <summary>
-/// Output formatter for converting API results to text/csv HTTP response body.
+/// Output formatter for converting DbDataReader API results to application/json HTTP response body.
 /// </summary>
 public class JsonDataOutputFormatter : TextOutputFormatter
 {
@@ -33,21 +33,18 @@ public class JsonDataOutputFormatter : TextOutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
-		return context.ContentType.Value == JsonContentType;
-	}
-
-	/// <inheritdoc/>
-	public override Encoding SelectCharacterEncoding(OutputFormatterWriteContext context)
-	{
-		var enc = base.SelectCharacterEncoding(context);
-		return enc;
-	}
-
-	/// <inheritdoc/>
-	public override IReadOnlyList<string>? GetSupportedContentTypes(string contentType, Type objectType)
-	{
-		var items = base.GetSupportedContentTypes(contentType, objectType);
-		return items;
+		if (!base.CanWriteResult(context))
+		{
+			return false;
+		}
+		var acceptsJson = context.HttpContext.Request.Headers.Accept.Any(c => StringComparer.OrdinalIgnoreCase.Equals(c, JsonContentType) || c.Contains("*/*"));
+		if (acceptsJson)
+		{
+			context.ContentTypeIsServerDefined = true;
+			context.ContentType = JsonContentType;
+			return true;
+		}
+		return false;
 	}
 
 	/// <inheritdoc/>

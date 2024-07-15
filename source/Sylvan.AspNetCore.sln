@@ -9,10 +9,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Be
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4533E0D6-DB74-4FAA-BCE8-8ED2B684F103}"
 	ProjectSection(SolutionItems) = preProject
+		..\docs\Http.Csv.md = ..\docs\Http.Csv.md
+		..\docs\Http.Excel.md = ..\docs\Http.Excel.md
 		..\license.txt = ..\license.txt
-		..\readme.md = ..\readme.md
 		..\docs\Mvc.Csv.md = ..\docs\Mvc.Csv.md
 		..\docs\Mvc.Excel.md = ..\docs\Mvc.Excel.md
+		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DFEE9D46-00C0-47D1-9AF5-8F24AE86B9F2}"

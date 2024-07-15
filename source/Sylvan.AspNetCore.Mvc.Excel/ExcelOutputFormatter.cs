@@ -39,6 +39,11 @@ public sealed class ExcelOutputFormatter : OutputFormatter
 	/// <inheritdoc/>
 	public override bool CanWriteResult(OutputFormatterCanWriteContext context)
 	{
+		if (!base.CanWriteResult(context))
+		{
+			return false;
+		}
+
 		foreach (var type in ExcelFileType.WriterSupported)
 		{
 			if (StringComparer.OrdinalIgnoreCase.Equals(context.ContentType.Value, type.ContentType))

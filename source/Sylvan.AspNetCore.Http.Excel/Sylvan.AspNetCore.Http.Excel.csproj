@@ -8,8 +8,16 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Sylvan.Data" Version="0.2.12" />
-		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.16" />
+		<PackageReference Include="Sylvan.Data" Version="0.2.16" />
+		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.24" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.Build.Tasks.Git" Version="8.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
 	</ItemGroup>
 	
 </Project>

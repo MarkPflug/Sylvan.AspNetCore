@@ -17,16 +17,15 @@ app.Map(
 	 () => {
 
 		 var data = GetData();
-		return Results.Extensions.Excel(data);
+		return data.AsExcel();
 	}
 );
 
 app.Map(
 	"/TestXlsb",
 	 () => {
-
 		 var data = GetData();
-		 return Results.Extensions.Excel(data, ExcelWorkbookType.ExcelBinary);
+		 return data.AsExcel(ExcelWorkbookType.ExcelBinary);
 	 }
 );
 

@@ -1,4 +1,4 @@
-# Sylvan.AspNetCore.Mvc.Csv
+# Sylvan.AspNetCore.Http.Csv
 
 This package provides support for CSV content negotiation for handling tabular data in ASP.NET Core web APIs.
 It allows a client to choose to send and receive CSV data by specifying `text/csv` for the `ContentType` or `Accept` HTTP headers.
