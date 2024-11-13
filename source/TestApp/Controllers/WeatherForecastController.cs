@@ -144,8 +144,8 @@ public class WeatherForecastController : Controller
 		return conn;
 	}
 
-	[HttpGet("getdata")]
-	public async Task<DbDataReader> GetData()
+	[HttpGet("GetSqlData")]
+	public async Task<DbDataReader> GetData(int count)
 	{
 		// conn will dispose with data reader
 		SqlConnection conn = await GetConnection();

@@ -12,12 +12,5 @@
 		<PackageReference Include="Sylvan.Data.Excel" Version="0.4.24" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.Build.Tasks.Git" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
-	</ItemGroup>
 	
 </Project>
