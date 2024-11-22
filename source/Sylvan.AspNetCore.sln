@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
+# 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestAppMvc", "TestApp\TestAppMvc.csproj", "{EB721A4B-4C54-400A-B27C-FF3E34174F73}"
@@ -14,8 +14,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{4533E0D6-D
 		..\license.txt = ..\license.txt
 		..\docs\Mvc.Csv.md = ..\docs\Mvc.Csv.md
 		..\docs\Mvc.Excel.md = ..\docs\Mvc.Excel.md
-		..\readme.md = ..\readme.md
 		..\docs\Mvc.JsonData.md = ..\docs\Mvc.JsonData.md
+		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{DFEE9D46-00C0-47D1-9AF5-8F24AE86B9F2}"
@@ -40,7 +40,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.Excel
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Mvc.JsonData", "Sylvan.AspNetCore.Mvc.JsonData\Sylvan.AspNetCore.Mvc.JsonData.csproj", "{29F5B23F-50FB-4960-8E98-87F5FDC56045}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sylvan.AspNetCore.Tests", "Sylvan.AspNetCore.Tests\Sylvan.AspNetCore.Tests.csproj", "{19C9FD47-BD34-42BF-99A7-FCEA81B0DA9A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sylvan.AspNetCore.Tests", "Sylvan.AspNetCore.Tests\Sylvan.AspNetCore.Tests.csproj", "{19C9FD47-BD34-42BF-99A7-FCEA81B0DA9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sylvan.AspNetCore.Http.JsonData", "Sylvan.AspNetCore.Http.JsonData\Sylvan.AspNetCore.Http.JsonData.csproj", "{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -172,6 +174,18 @@ Global
 		{19C9FD47-BD34-42BF-99A7-FCEA81B0DA9A}.Release|x64.Build.0 = Release|Any CPU
 		{19C9FD47-BD34-42BF-99A7-FCEA81B0DA9A}.Release|x86.ActiveCfg = Release|Any CPU
 		{19C9FD47-BD34-42BF-99A7-FCEA81B0DA9A}.Release|x86.Build.0 = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|x64.Build.0 = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Debug|x86.Build.0 = Debug|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|x64.ActiveCfg = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|x64.Build.0 = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|x86.ActiveCfg = Release|Any CPU
+		{8FDB5592-35CD-4540-9FCD-68FAAEDEF989}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

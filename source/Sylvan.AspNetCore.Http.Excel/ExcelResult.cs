@@ -35,10 +35,9 @@ public class ExcelResult :
 		{
 			response.Headers.ContentDisposition = $"attachment; filename=\"{filename}\"";
 		}
-		await using (var dw = await ExcelDataWriter.CreateAsync(response.Body, this.type))
-		{
-			await dw.WriteAsync(data);
-		}		
+		await using var dw = await ExcelDataWriter.CreateAsync(response.Body, this.type);
+		await dw.WriteAsync(data);
+		await data.DisposeAsync();
 	}
 
 #if MVC

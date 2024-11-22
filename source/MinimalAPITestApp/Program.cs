@@ -82,6 +82,8 @@ app.Map(
 					case "application/excel": 
 					case ExcelFileType.ExcelXmlContentType:
 						return Results.Extensions.Excel(data, ExcelWorkbookType.ExcelXml);
+					case "application/json":
+						return Results.Extensions.JsonData(data);
 				}
 			}
 		}

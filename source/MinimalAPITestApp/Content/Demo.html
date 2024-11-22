@@ -4,7 +4,7 @@
     // to test content negotiation
     async function go() {
         let h = new Headers();
-        h.append("Accept", "application/excel");
+        h.append("Accept", "application/json");
 
         let req = new Request("/Test", {
             method: "GET",
@@ -17,7 +17,7 @@
             const blob = await r.blob();
             const a = document.createElement('a');
             a.href = window.URL.createObjectURL(blob);
-            a.download = "demo.xlsx";
+            a.download = "demo.json";
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);

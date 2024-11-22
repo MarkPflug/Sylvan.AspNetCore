@@ -9,8 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Sylvan.AspNetCore.Http.Csv\Sylvan.AspNetCore.Http.Csv.csproj" />
     <ProjectReference Include="..\Sylvan.AspNetCore.Http.Excel\Sylvan.AspNetCore.Http.Excel.csproj" />
-    <PackageReference Update="Microsoft.Build.Tasks.Git" Version="8.0.0" />
-    <PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" />
+    <ProjectReference Include="..\Sylvan.AspNetCore.Http.JsonData\Sylvan.AspNetCore.Http.JsonData.csproj" />
+
     <PackageReference Include="Sylvan.BuildTools.Resources" Version="0.6.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

@@ -40,6 +40,7 @@ public class CsvResult :
 		await using var writer = new StreamWriter(response.Body, Encoding.UTF8);
 		await using var csv = CsvDataWriter.Create(writer);
 		await csv.WriteAsync(data);
+		await data.DisposeAsync();
 	}
 
 #if MVC

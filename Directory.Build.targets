@@ -17,16 +17,18 @@
   <ItemGroup>
 
 		<PackageReference Include="Microsoft.Build.Tasks.Git" Version="8.0.0" PrivateAssets="All" />
-		<PackageReference Update="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />  
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="All" />  
   </ItemGroup>
 
   <ItemGroup Condition="'$(IsTestProject)' == 'true'">
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
-    <!--<PackageReference Include="Coverlet.Collector" Version="3.0.2"/>-->
+    <!--
+		<PackageReference Include="Coverlet.Collector" Version="3.0.2"/>
     <PackageReference Include="Coverlet.MSBuild" Version="6.0.2"/>
     <PackageReference Include="ReportGenerator" Version="5.4.0"/>
+		-->
   </ItemGroup>
 
   
