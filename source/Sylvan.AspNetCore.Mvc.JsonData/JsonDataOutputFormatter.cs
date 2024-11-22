@@ -9,7 +9,7 @@ namespace Sylvan.AspNetCore.Mvc.JsonData;
 /// <summary>
 /// Output formatter for converting DbDataReader API results to application/json HTTP response body.
 /// </summary>
-public class JsonDataOutputFormatter : TextOutputFormatter
+public sealed class JsonDataOutputFormatter : TextOutputFormatter
 {
 	const string JsonContentType = "application/json";
 

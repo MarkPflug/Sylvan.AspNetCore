@@ -1,0 +1,29 @@
+﻿
+<script type="text/javascript">
+
+    // to test content negotiation
+    async function go() {
+        let h = new Headers();
+        h.append("Accept", "application/excel");
+
+        let req = new Request("/Test", {
+            method: "GET",
+            headers: h,
+            mode: "no-cors"
+        });
+
+        let r = await fetch(req);
+        if (r.status === 200) {
+            const blob = await r.blob();
+            const a = document.createElement('a');
+            a.href = window.URL.createObjectURL(blob);
+            a.download = "demo.xlsx";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } else {
+            console.error("R:" + r.status);
+        }
+    }
+    go();
+</script>
