@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Sylvan.Data.Excel;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -25,9 +26,18 @@ public class OutputFormatterBenchmarks
 
 	public OutputFormatterBenchmarks()
 	{
+		var host =
+			new HostBuilder()
+			.ConfigureWebHost(whb => {
+				whb.UseTestServer()
+					.UseStartup<TestApp.Startup>();
+			})
+			.Build();
+
+		host.Start();
+
 		// Arrange
-		server = new TestServer(new WebHostBuilder()
-		   .UseStartup<TestApp.Startup>());
+		server = host.GetTestServer();
 
 		jsonClient = server.CreateClient();
 		var jsonAccept = jsonClient.DefaultRequestHeaders.Accept;
@@ -62,7 +72,7 @@ public class OutputFormatterBenchmarks
 	public int RecordCount { get; set; }
 
 	[Benchmark]
-	public async Task Json()
+	public async Task STJson()
 	{
 		for (int i = 0; i < IterationCount; i++)
 		{

@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
+using Microsoft.Extensions.Hosting;
 using Sylvan.AspNetCore.Mvc.Formatters;
 using Sylvan.Data;
 using Sylvan.Data.Csv;
@@ -49,7 +50,17 @@ public class InputFormatterBenchmarks
 
 	public InputFormatterBenchmarks()
 	{
-		server = new TestServer(new WebHostBuilder().UseStartup<Startup>());
+
+		var host =
+			new HostBuilder()
+			.ConfigureWebHost(whb =>
+			{
+				whb.UseTestServer()
+				.UseStartup<Startup>();
+			})
+			.Build();
+		host.Start();
+		server = host.GetTestServer();
 
 		client = server.CreateClient();
 
@@ -112,7 +123,7 @@ public class InputFormatterBenchmarks
 		}
 	}
 
-	[Benchmark]
+	[Benchmark(Baseline = true)]
 	public async Task Baseline()
 	{
 		for (int i = 0; i < IterationCount; i++)
