@@ -1,0 +1,33 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Build/">
+    <File Path="../.editorconfig" />
+    <File Path="../.gitignore" />
+    <File Path="../Directory.Build.props" />
+    <File Path="../Directory.Build.targets" />
+  </Folder>
+  <Folder Name="/Docs/">
+    <File Path="../docs/Http.Csv.md" />
+    <File Path="../docs/Http.Excel.md" />
+    <File Path="../docs/Mvc.Csv.md" />
+    <File Path="../docs/Mvc.Excel.md" />
+    <File Path="../docs/Mvc.JsonData.md" />
+    <File Path="../license.txt" />
+    <File Path="../readme.md" />
+  </Folder>
+  <Project Path="Benchmarks/Benchmarks.csproj" />
+  <Project Path="MinimalAPITestApp/TestAppMinimal.csproj" />
+  <Project Path="Sylvan.AspNetCore.Http.Csv/Sylvan.AspNetCore.Http.Csv.csproj" />
+  <Project Path="Sylvan.AspNetCore.Http.Excel/Sylvan.AspNetCore.Http.Excel.csproj" />
+  <Project Path="Sylvan.AspNetCore.Http.JsonData/Sylvan.AspNetCore.Http.JsonData.csproj" />
+  <Project Path="Sylvan.AspNetCore.Mvc.Csv/Sylvan.AspNetCore.Mvc.Csv.csproj" />
+  <Project Path="Sylvan.AspNetCore.Mvc.Excel/Sylvan.AspNetCore.Mvc.Excel.csproj" />
+  <Project Path="Sylvan.AspNetCore.Mvc.JsonData/Sylvan.AspNetCore.Mvc.JsonData.csproj" />
+  <Project Path="Sylvan.AspNetCore.TagHelpers/Sylvan.AspNetCore.TagHelpers.csproj" />
+  <Project Path="Sylvan.AspNetCore.Tests/Sylvan.AspNetCore.Tests.csproj" />
+  <Project Path="TestApp/TestAppMvc.csproj" />
+</Solution>
