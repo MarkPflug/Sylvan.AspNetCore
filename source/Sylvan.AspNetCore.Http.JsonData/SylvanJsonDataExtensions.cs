@@ -9,7 +9,7 @@ namespace Microsoft.AspNetCore.Http;
 /// </summary>
 public static class SylvanJsonDataExtensions
 {
-	public static IResult AsJsonData<T>(this IEnumerable<T> data, string? filename = null) where T : class
+	public static IResult ToJsonData<T>(this IEnumerable<T> data, string? filename = null) where T : class
 	{
 		return new JsonDataResult<T>(data,  filename);
 	}

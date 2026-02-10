@@ -15,43 +15,45 @@ public class DataTableTagHelper : TagHelper
 		output.TagName = "table";
 		var reader = Data;
 
-		output.Content.AppendHtml("<thead>");
-		output.Content.AppendHtml("<tr>");
+		var c = output.Content;
+
+		c.AppendHtml("<thead>");
+		c.AppendHtml("<tr>");
 		for (int i = 0; i < reader.FieldCount; i++)
 		{
-			output.Content.AppendHtml("<td>");
-			output.Content.Append(reader.GetName(i));
-			output.Content.AppendHtml("</td>");
+			c.AppendHtml("<td>");
+			c.Append(reader.GetName(i));
+			c.AppendHtml("</td>");
 		}
 
-		output.Content.AppendHtml("</tr>");
-		output.Content.AppendHtml("</thead>");
-		output.Content.AppendHtml("<tbody>");
+		c.AppendHtml("</tr>");
+		c.AppendHtml("</thead>");
+		c.AppendHtml("<tbody>");
 		while (reader.Read())
 		{
-			output.Content.AppendHtml("<tr>");
+			c.AppendHtml("<tr>");
 
 			for (int i = 0; i < reader.FieldCount; i++)
 			{
-				output.Content.AppendHtml("<td>");
-				output.Content.Append(reader.GetValue(i)?.ToString());
-				output.Content.AppendHtml("</td>");
+				c.AppendHtml("<td>");
+				c.Append(reader.GetValue(i)?.ToString());
+				c.AppendHtml("</td>");
 			}
 
-			output.Content.AppendHtml("</tr>");
+			c.AppendHtml("</tr>");
 		}
-		output.Content.AppendHtml("</tbody>");
+		c.AppendHtml("</tbody>");
 
-		output.Content.AppendHtml("<tfoot>");
-		output.Content.AppendHtml("<tr>");
+		c.AppendHtml("<tfoot>");
+		c.AppendHtml("<tr>");
 		for (int i = 0; i < reader.FieldCount; i++)
 		{
-			output.Content.AppendHtml("<td>");
-			output.Content.Append(reader.GetName(i));
-			output.Content.AppendHtml("</td>");
+			c.AppendHtml("<td>");
+			c.Append(reader.GetName(i));
+			c.AppendHtml("</td>");
 		}
 
-		output.Content.AppendHtml("</tr>");
-		output.Content.AppendHtml("</tfoot>");
+		c.AppendHtml("</tr>");
+		c.AppendHtml("</tfoot>");
 	}
 }
